@@ -1106,7 +1106,7 @@ const GEN = {
 };
 
 // ===== 存储的状态 =====
-let settings = Object.assign({ rate: 0.9, voice: "", listenOnly: false, start: "2026-10-26", exam: "", goal: 40, sound: true }, store.get("settings", {}));
+let settings = Object.assign({ ver: 0, rate: 1, voice: "", listenOnly: false, start: "2026-10-26", exam: "", goal: 40, sound: true }, store.get("settings", {}));
 const saveSettings = () => store.set("settings", settings);
 let done = store.get("done", {});     // 打卡：第几天 → true
 let WS = store.get("words", {});      // 单词：id → { k 认识次数, w 在错词本, s 错词连续答对, m 早就会 }
@@ -1227,12 +1227,24 @@ function renderHUD() { const lv = levelOf(PT.total); $("#hudLv").textContent = `
 // ===== 朗读 =====
 const synth = window.speechSynthesis;
 let voices = [], keep = [], playTok = 0;
+// 挑声音：试听后觉得 Samantha 最清楚，优先用它（有「增强版」就用增强版）；其次别的增强版、Google 声音、Daniel，最后才是别的英文声音
+function bestVoice() {
+  for (const re of [/Samantha.*(Premium|Enhanced)|(Premium|Enhanced).*Samantha/i, /Samantha/, /Premium|Enhanced|Siri/i, /Google US English|Google UK English/, /Daniel/, /Serena|Kate|Karen|Moira/, /Martha|Arthur/]) {
+    const v = voices.find(x => re.test(x.name)); if (v) return v;
+  }
+  return voices.find(v => /en[-_]GB/i.test(v.lang)) || voices[0];
+}
 function loadVoices() {
   if (!synth) return;
   voices = synth.getVoices().filter(v => /^en/i.test(v.lang));
-  if (!settings.voice || !voices.some(v => v.name === settings.voice)) {
-    const pref = voices.find(v => /Daniel|Kate|Serena|Martha|Arthur|Google UK English/.test(v.name)) || voices.find(v => /en[-_]GB/i.test(v.lang)) || voices.find(v => /Samantha|Google US English/.test(v.name)) || voices[0];
-    if (pref) settings.voice = pref.name;
+  if (voices.length) {
+    if (settings.ver < 3) {   // 一次性：把旧版保存的偏慢语速（太慢会发糊）和旧的默认声音换成新的
+      settings.ver = 3; if (settings.rate < 1) settings.rate = 1;
+      const b = bestVoice(); if (b) settings.voice = b.name;
+      saveSettings();
+    } else if (!settings.voice || !voices.some(v => v.name === settings.voice)) {
+      const b = bestVoice(); if (b) settings.voice = b.name;
+    }
   }
   if (!$("#settings").hidden) RENDER.settings();
 }
@@ -1244,7 +1256,7 @@ function speakQueue(parts, onend) {
   parts.forEach((p, i) => {
     const u = new SpeechSynthesisUtterance(p);
     if (v) { u.voice = v; u.lang = v.lang; } else u.lang = "en-GB";
-    u.rate = settings.rate * (p.length <= 9 ? 0.85 : 1);
+    u.rate = settings.rate * (p.length <= 9 ? 0.95 : 1);
     if (i === parts.length - 1 && onend) u.onend = onend;
     keep.push(u); synth.speak(u);
   });
@@ -2203,7 +2215,8 @@ RENDER.settings = function () {
   el.innerHTML = `<div class="card">
     <div class="row"><label style="min-width:72px">语速</label><input type="range" id="sRate" min="0.6" max="1.1" step="0.05" value="${settings.rate}"><span class="hint" id="sRateV">${settings.rate.toFixed(2)}</span></div>
     <div class="row"><label style="min-width:72px">声音</label><select id="sVoice" style="flex:1">${voices.length ? voices.map(v => `<option ${v.name === settings.voice ? "selected" : ""}>${esc(v.name)}</option>`).join("") : "<option>（没找到英文声音）</option>"}</select><button id="sTest">试听</button></div>
-    <p class="hint">剑桥考试多是英式口音，带 en-GB 的声音（比如 Daniel）更像真考试。</p>
+    <p class="hint">默认用 Samantha（美式口音，听起来最清楚）。剑桥考试多是英式口音，想听英式可以选带 en-GB 的声音（比如 Daniel）。</p>
+    <p class="hint">声音发糊、听不清时：先把语速调到 1.0（太慢反而会糊），再点「试听」换几个声音比一比。iPad 还可以下载更清晰的「增强版」声音：设置 → 辅助功能 → 朗读内容 → 声音 → 英语，选 Samantha 或 Daniel，下载「增强版」（不同系统版本的菜单名字可能略有不同）；下载好后回到这里，声音列表里会多出带「增强版」的声音，选它。</p>
     <div class="row"><label><input type="checkbox" id="sListen" ${settings.listenOnly ? "checked" : ""}> 口语题只听不看（题目文字先模糊，点「看题目」才显示）</label></div>
   </div>
   <div class="card">
