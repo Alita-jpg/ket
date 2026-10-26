@@ -63,6 +63,10 @@ audio { width: 100%; margin-top: 6px; }
 .rate button { flex: 1; }
 .rate .b1 { color: var(--bad); } .rate .b2 { color: var(--mid); } .rate .b3 { color: var(--good); }
 .tag { font-size: 12px; border: 1px solid var(--border); border-radius: 999px; padding: 0 8px; }
+.term { margin: 8px 0; line-height: 1.6; } .term b { font-size: 17px; }
+.enans { font-size: 17px; margin: 6px 0 2px; }
+.zhbox { background: var(--soft); border-radius: 10px; padding: 8px 12px; margin-top: 8px; }
+.zhbox p { margin: 6px 0; font-size: 16px; line-height: 1.65; }
 .tag.r1 { color: var(--bad); border-color: var(--bad); }
 .tag.r2 { color: var(--mid); border-color: var(--mid); }
 .tag.r3 { color: var(--good); border-color: var(--good); }
@@ -197,6 +201,7 @@ header { display: flex; justify-content: space-between; align-items: flex-start;
   <button data-tab="today" class="on">今天</button>
   <button data-tab="words">单词</button>
   <button data-tab="speak">口语</button>
+  <button data-tab="learn">📖 讲解</button>
   <button data-tab="listen">听力</button>
   <button data-tab="write">写作</button>
   <button data-tab="reward">奖励</button>
@@ -204,6 +209,7 @@ header { display: flex; justify-content: space-between; align-items: flex-start;
 <section id="today"></section>
 <section id="words" hidden></section>
 <section id="speak" hidden></section>
+<section id="learn" hidden></section>
 <section id="listen" hidden></section>
 <section id="write" hidden></section>
 <section id="reward" hidden></section>
@@ -242,9 +248,9 @@ const p3w = (topic, grammar, n) => ({ topic, grammar, days: [
 const SAT_RW = "阅读写作全卷，限时 60 分钟", SAT_L = "听力全卷 30 分钟 ＋ 口语模拟";
 const WEEKS = [
   { topic: "Family and friends · Personal feelings", grammar: "比赛周，不学新的", days: [
-    "⭐ 比赛周：闯关 A1，APEC 第 1–15 题（口语页，选「⭐ 闯关 A1」）", "⭐ 闯关 A2，APEC 第 16–30 题；先复习 A1（口语页）",
-    "⭐ 闯关 B，外交与礼仪第 31–45 题；先复习 A（口语页）", "⭐ 闯关 C 世界地理 ＋ E 历史文化（第 46–58、69–74 题，口语页）",
-    "⭐ 闯关 D 科学常识 ＋ F 数理生活（第 59–68、75–85 题，口语页）", "口语页「🎯 闯关」模拟 3–5 轮，选「只抽还没熟的」，再看错题",
+    "⭐ 比赛周：先在「📖 讲解」页看懂 A1，再去口语页练 A1（APEC 第 1–15 题）", "⭐ 「📖 讲解」看懂 A2，再去口语页练 A2（APEC 第 16–30 题）；先复习 A1",
+    "⭐ 「📖 讲解」看懂 B，再去口语页练 B（外交与礼仪第 31–45 题）；先复习 A", "⭐ 「📖 讲解」看懂 C、E，再去口语页练（世界地理 ＋ 历史文化，第 46–58、69–74 题）",
+    "⭐ 「📖 讲解」看懂 D、F，再去口语页练（科学常识 ＋ 数理生活，第 59–68、75–85 题）", "口语页「🎯 闯关」模拟 3–5 轮，选「只抽还没熟的」，再看错题",
     "🏆 下午比赛！上午在口语页「🎯 闯关」轻松过一轮，别太累，加油"] },
   { topic: "Education · Time", grammar: "一般过去时，不规则动词", days: [
     "阅读 ① 告示、② 配对", "听力 ① 看图、② 填笔记", "写作 ⑥ 邮件：3 个问题都要答到",
@@ -1314,6 +1320,7 @@ function renderSub() {
 }
 const jumpBtn = (label, tab) => `<button class="small" data-go="${tab}">${label}</button>`;
 function jumpFor(task) {
+  if (/讲解/.test(task)) return jumpBtn("去看讲解", "learn") + " " + jumpBtn("去练口语", "speak");
   if (/口语/.test(task)) return jumpBtn("去练口语", "speak");
   if (/写作|作文/.test(task)) return jumpBtn("去写作", "write");
   if (/听力/.test(task)) return jumpBtn("加练拼写和数字", "listen");
@@ -1524,6 +1531,215 @@ RENDER.speak = function () {
   el.innerHTML = h;
   $$(".seg button", el).forEach(b => b.onclick = () => { cleanup(); sv.mode = b.dataset.m; sv.ref = false; sv.text = false; RENDER.speak(); });
   if (sv.mode === "p1") wireP1(el); else if (sv.mode === "p2") wireP2(el); else if (sv.mode === "dip") wireDip(el); else wireMock(el);
+};
+// ===== 📖 讲解页数据：每题的通俗中文，和每组题的生词小词典 =====
+const LEARN = {
+  dipA1: { n0: 1,
+  terms: [
+    ["APEC", "亚太经合组织：亚洲和太平洋一带的国家、地区组成的「经济朋友圈」，定期开会，商量怎么把买卖做得更顺。"],
+    ["economy", "经济体：APEC 里的「成员」。有的是国家，有的是地区，所以不叫 country，叫 economy。"],
+    ["member", "成员：像班里的同学，是加入了这个组织的一员。"],
+    ["Leaders' Meeting", "领导人会议：各成员的最高领导人坐到一起开的会，是 APEC 里级别最高的会。"],
+    ["theme", "主题：一次会议的「题目」，大家围着它来讨论。"],
+    ["priority areas", "优先领域：最先要做的几件大事。"],
+    ["committee", "委员会：专门负责一类事情的小组。"],
+    ["trade", "贸易：买卖东西。"],
+    ["investment", "投资：拿钱去帮一个事业发展，以后能赚回更多。"],
+    ["digital economy", "数字经济：靠电脑、网络、人工智能来做买卖和赚钱。"],
+    ["e-commerce", "电子商务：在网上买东西、卖东西。"],
+    ["sustainable", "可持续的：能一直做下去，不会用光，也不会被毁掉。"],
+    ["tariff", "关税：东西从别的国家运进来时要交的一笔钱，像「过路费」。"],
+    ["import", "进口：把别的国家的东西买进来。imported goods 就是进口商品。"],
+    ["supply chain", "供应链：一件东西从原料变成成品、送到你手里要经过的所有环节，像接力赛。"],
+    ["raw materials", "原材料：做东西最开始用的材料，比如棉花、木头、铁矿。"],
+    ["intellectual property", "知识产权：「想出来的东西」归想出来的人，比如发明、书、画、歌，别人不能随便抄。"],
+    ["cross-border", "跨境：跨过国界。"] ],
+  items: [
+    ["Asia-Pacific Economic Cooperation", "APEC 这个缩写，每个字母是哪几个词？", "Asia 亚洲、Pacific 太平洋、Economic 经济、Cooperation 合作。合起来就是「亚太经济合作组织」：亚洲和太平洋一带的经济合作大家庭。"],
+    ["21", "APEC 一共有几个成员？", "21 个。这里的成员叫 economy（经济体）：有的是国家，有的是地区，所以不叫 country。"],
+    ["Shenzhen, China", "2026 年的 APEC 领导人会议在哪个城市开？", "深圳（Shenzhen），在中国。"],
+    ["Building an Asia-Pacific Community", "2026 年这次会议的「题目」（主题）是什么？", "Building an Asia-Pacific Community：建设亚太共同体。community 就是「大家庭」，意思是让亚太的国家和地区像一家人一样互相帮忙。"],
+    ["Open, Innovate, Cooperate", "2026 年 APEC 最先要做的三件大事是什么？", "Open 开放、Innovate 创新、Cooperate 合作。好记的办法：把门打开（open）、想新办法（innovate）、手拉手一起做（cooperate）。"],
+    ["Committee on Trade and Investment (CTI)", "APEC 里哪个小组管「买卖和投资」？", "CTI，全名 Committee on Trade and Investment：贸易与投资委员会。trade 是买卖东西，investment 是投资，就是拿钱去帮一个事业长大，以后赚回更多。"],
+    ["Digital economy, including AI and e-commerce", "DESG 这个小组主要讨论什么？", "数字经济，包括人工智能（AI）和网上购物（e-commerce）。digital 就是「用电脑、网络的」。"],
+    ["Protecting the ocean and sustainable fishing", "OFWG 这个小组管什么？", "保护海洋，让捕鱼可以一直持续下去（sustainable fishing）。意思是别把鱼一次捕光，这样以后还有鱼吃。"],
+    ["A tax charged on imported goods", "什么是 tariff（关税）？", "对进口商品收的一笔钱。进口（import）就是把别的国家的东西买进来。可以把关税想成东西「进门要交的过路费」。"],
+    ["They become more expensive", "如果一个国家把关税提高了，进口的东西会怎么样？", "会变贵（more expensive）。因为过路费变多了，商家只好把价钱加上去。"],
+    ["The journey of a product from raw materials to the customer", "什么是 supply chain（供应链）？", "一件东西从原材料变成成品、再送到你手里，要经过的所有环节，像接力赛：种棉花 → 织布 → 做衣服 → 运到商店 → 你买到。raw materials 就是原材料。"],
+    ["Legal rights that protect creations like inventions, books and artworks", "什么是 intellectual property（知识产权）？", "保护「想出来的东西」的法律权利，比如发明、书、画、歌。想出来的东西属于想出来的人，别人不能随便抄。"],
+    ["To make goods cheaper and trade easier", "APEC 为什么要推动降低关税？", "为了让东西更便宜、买卖更方便。关税（过路费）少了，价钱就能降下来。"],
+    ["Alipay+ cross-border payment technology", "哪种技术让外国游客能方便地买到苏州梅花糕？", "Alipay+ 跨境支付技术。cross-border 就是「跨过国界」：外国游客用自己国家的手机支付，在中国也能付钱。"],
+    ["Shanghai, Suzhou, Guangzhou and others; the Economic Leaders' Meeting is in Shenzhen.", "2026 年 APEC 的系列会议，除了深圳还在哪些城市开？", "上海、苏州、广州等。但最高级别的领导人会议在深圳。"] ] },
+  dipA2: { n0: 16,
+  terms: [
+    ["partnership", "伙伴关系：大家当搭档，一起做事。"],
+    ["food security", "粮食安全：让每个人都有足够的饭吃。"],
+    ["corruption", "腐败：不公平的事，比如收好处、走后门。"],
+    ["transparent", "透明：看得清清楚楚，不藏着掖着。"],
+    ["visa", "签证：去别的国家的「入场许可」。"],
+    ["binding laws", "有约束力的法律：必须遵守，不遵守要受罚的规定。"],
+    ["dialogue and consultation", "对话和协商：坐下来好好说、一起商量。"],
+    ["Secretariat", "秘书处：APEC 的「办公室」，负责日常的安排和联络。"],
+    ["advisory council", "咨询理事会：给领导人提建议的团体。advisory 就是「提建议的」。"],
+    ["predict", "预测：提前猜到、算出来。"],
+    ["working group", "工作组：一个小团队，专门管某一个具体话题。"],
+    ["Ministerial Meeting", "部长级会议：各国管某个领域的部长们开的会，比高官会高一级，比领导人会议低一级。"] ],
+  items: [
+    ["Policy Partnership on Food Security.", "PPFS 的全称是什么？", "Policy Partnership on Food Security：粮食安全政策伙伴关系。food security 是「粮食安全」，意思是让每个人都有足够的饭吃。"],
+    ["To promote fair and transparent business and fight corruption.", "APEC 的反腐败工作组负责什么？", "让做生意更公平、更透明，并打击腐败。corruption（腐败）是收好处、走后门这类不公平的事；transparent（透明）是看得清清楚楚、不藏着掖着。"],
+    ["By connecting them with international platforms and e-commerce channels.", "APEC 怎样帮助小企业？", "把它们连到国际平台和网上销售渠道，帮它们找到更多买家。small businesses 是小企业，e-commerce channels 是网购渠道。"],
+    ["By making visa applications easier.", "APEC 怎样促进旅游？", "让办签证更容易。visa（签证）就是去别的国家的「入场许可」，手续简单了，游客就更愿意来。"],
+    ["APEC cannot make binding laws like the UN; it promotes cooperation through dialogue and consultation.", "APEC 和联合国（UN）有什么不同？", "APEC 不能像联合国那样制定「必须遵守」的法律（binding laws），它靠对话和商量（dialogue and consultation）来推动合作。"],
+    ["Asia", "APEC 里的字母 A 代表什么？", "Asia，亚洲。"],
+    ["Building an Asia-Pacific Community", "2026 年在深圳开的 APEC，官方主题是什么？", "Building an Asia-Pacific Community：建设亚太共同体（和第 4 题一样）。"],
+    ["In Singapore.", "APEC 的秘书处设在哪里？", "新加坡（Singapore）。秘书处就是 APEC 的「办公室」，负责日常的安排和联络。"],
+    ["ABAC (APEC Business Advisory Council)", "哪个组织代表商界，并给 APEC 领导人提建议？", "ABAC：APEC 工商咨询理事会（APEC Business Advisory Council）。business 是商界，advisory 是「提建议的」，council 是理事会。"],
+    ["Artificial Intelligence (AI)", "2026 年 APEC 会议里，科技方面最热门的话题是什么？", "人工智能（Artificial Intelligence，简称 AI）。"],
+    ["It is held once every year.", "APEC 经济领导人会议多久开一次？", "每年一次（once every year）。"],
+    ["AI can predict weather and help crops grow better.", "按 APEC 的讨论，人工智能怎样帮助农民？", "AI 可以预测天气，帮助农作物长得更好。predict 就是「提前猜到、算出来」。"],
+    ["In 1989.", "APEC 是哪一年成立的？", "1989 年。"],
+    ["A small team that works on specific topics like health or security.", "APEC 里的 Working Group（工作组）是什么？", "一个小团队，专门负责某个具体的话题，比如健康或安全。"],
+    ["The Economic Leaders' Meeting", "部长级会议比高官会高一级，那最高级别的会议叫什么？", "经济领导人会议（Economic Leaders' Meeting）。从低到高排一排：高官会 → 部长级会议 → 领导人会议。"] ] },
+  dipB: { n0: 31,
+  terms: [
+    ["sovereign country", "主权国家：自己说了算的独立国家。"],
+    ["diplomatic relations", "外交关系：两个国家正式交往，互派大使、互相访问。"],
+    ["UN（United Nations）", "联合国：世界上大多数国家参加的「世界大家庭」，目标是和平、发展与合作。"],
+    ["member state", "会员国：加入了联合国的国家。"],
+    ["observer state", "观察员国：可以参加、旁听，但不是正式会员的国家。"],
+    ["Security Council", "安全理事会：联合国里专门管「维护世界和平与安全」的小组。"],
+    ["permanent member", "常任理事国：在安理会里有固定席位的国家，一共 5 个。"],
+    ["international law", "国际法：国家和国家之间的规则，像「交通规则」。"],
+    ["humanitarian law", "人道主义法：就算在打仗，也要保护平民、伤员和战俘的规则。"],
+    ["civilians", "平民：普通老百姓。prisoners of war 是战俘，就是被抓住的士兵。"],
+    ["head of state", "国家元首：国家的最高代表，比如国家主席、总统。"],
+    ["etiquette", "礼仪：和人相处时有礼貌、合规矩的做法。"],
+    ["red carpet", "红地毯。military band 是军乐队，national anthem 是国歌。"],
+    ["salute", "敬礼。stand at attention 是立正，站得笔直。"] ],
+  items: [
+    ["Relations established between sovereign countries through diplomatic activities", "什么是 diplomatic relations（外交关系）？", "两个独立国家之间通过外交活动建立和保持的关系，比如互派大使、互相访问。sovereign（主权的）就是「自己说了算的独立国家」。"],
+    ["There is no globally agreed fixed number. There are 193 member states in the UN, plus some observer states and other regions.", "世界上有多少个国家和地区？", "没有一个大家都认可的固定数字。联合国有 193 个会员国，另外还有一些观察员国和其他地区。（比赛时就这样回答。）"],
+    ["An international organization of governments dedicated to peace, development and cooperation", "什么是联合国（UN）？", "由各国政府组成的国际组织，目的是促进和平、发展与合作。可以把它想成「世界大家庭」。"],
+    ["193", "联合国有多少个会员国？", "193 个。"],
+    ["New York City", "联合国总部在哪里？", "美国纽约（New York City）。"],
+    ["A main UN body responsible for maintaining international peace and security", "联合国安全理事会（Security Council）是什么？", "联合国里负责维护世界和平与安全的主要机构，像专门管「别打架」的小组。"],
+    ["China, France, Russia, the UK and the US", "安理会的五个常任理事国是哪些？", "中国、法国、俄罗斯、英国、美国。permanent 的意思是「固定的、长期的」，这 5 个国家的席位是固定的。"],
+    ["Rules and principles agreed upon by countries to regulate their relations", "什么是国际法（international law）？", "各国一起商量好、大家都遵守的规则，用来管理国家和国家之间的关系，像国家之间的「交通规则」。"],
+    ["Laws that protect civilians, the wounded and prisoners of war during conflicts", "什么是国际人道主义法？", "就算在打仗，也要保护平民、伤员和战俘的法律规则。civilians 是平民，the wounded 是受伤的人，prisoners of war 是战俘。"],
+    ["Red carpet, military band and national anthem", "迎接外国元首时，通常用什么礼仪？", "红地毯、军乐队、奏国歌。head of state（国家元首）就是国家的最高代表，比如国家主席、总统。"],
+    ["Receive it with both hands and express thanks", "在日本收到礼物，应该怎么做？", "用双手接过来，并且说谢谢。"],
+    ["The elders", "中国人吃饭的礼仪里，谁先开始吃？", "长辈（the elders）。要尊敬老人，长辈先动筷子。"],
+    ["English or French.", "国际会议上，发言者应该用哪种语言？", "English or French，英语或法语。（这是题库的答案，比赛时照这个说。）"],
+    ["We should pay attention to welcome and farewell etiquette, meetings and banquets, understand the background and preferences of foreign guests, arrange appropriate venues and meals, and follow the principle of “guest first”.", "接待外宾时，我们应该注意哪些礼仪？", "要点：迎送的礼节、会谈和宴请，了解客人的背景和喜好，安排合适的地方和饭菜，坚持「客人优先」（guest first）。最后这四个字最关键，记住它。"],
+    ["Stand at attention, take off your hat and watch the flag respectfully. Military personnel should salute.", "请说一说升国旗时的国际礼仪。", "立正，脱帽，认真注视国旗；军人要敬军礼。stand at attention 是「立正」，salute 是「敬礼」。"] ] },
+  dipC: { n0: 46,
+  terms: [
+    ["ancient civilization", "古代文明：很久很久以前的人类文明。"],
+    ["capital", "首都：一个国家政府所在的城市。"],
+    ["continent", "大洲：地球上最大的陆地板块，一共七个。"],
+    ["populous", "人口多的。most populous 就是人口最多的。"],
+    ["producer", "生产者：生产某种东西最多的人或国家。"],
+    ["gift（动词）", "赠送：gifted A to B 就是把 A 送给 B。"] ],
+  items: [
+    ["The Egyptians", "金字塔是哪个古代文明建的？", "古埃及人（The Egyptians）。ancient civilization 就是「很久很久以前的文明」。"],
+    ["France", "埃菲尔铁塔在哪个国家？", "法国（France），在首都巴黎。"],
+    ["Washington, D.C.", "美国的首都是哪里？", "华盛顿特区（Washington, D.C.）。注意不是纽约。"],
+    ["George Washington", "美国第一任总统是谁？", "乔治·华盛顿（George Washington）。美国首都的名字就来自他。"],
+    ["Alaska", "美国面积最大的州是哪个？", "阿拉斯加（Alaska），在美国的最北边。"],
+    ["The Pacific Ocean", "地球上最大的海洋是哪个？", "太平洋（The Pacific Ocean）。"],
+    ["The Nile", "世界上最长的河流是什么？", "尼罗河（The Nile），在非洲。（这是题库的答案，比赛时照这个说。）"],
+    ["Mount Everest", "世界最高峰是哪座？", "珠穆朗玛峰（Mount Everest）。"],
+    ["Oceania", "面积最小的大洲是哪个？", "大洋洲（Oceania），澳大利亚就在这个大洲。"],
+    ["Asia", "面积最大的大洲是哪个？", "亚洲（Asia），我们就住在这里。"],
+    ["France", "哪个国家把自由女神像送给了美国？", "法国（France）。gift 在这里是动词，意思是「赠送」。"],
+    ["Brazil", "世界上最大的咖啡生产国是哪个？", "巴西（Brazil）。producer 就是「生产者」。"],
+    ["India", "世界上人口最多的国家是哪个？", "印度（India）。populous 是「人口多的」，most populous 就是人口最多。"] ] },
+  dipD: { n0: 59,
+  terms: [
+    ["planet", "行星：围着太阳转的大星球，地球就是一颗。"],
+    ["solar system", "太阳系：太阳和围着它转的行星等。"],
+    ["oxygen", "氧气：动植物呼吸需要的气体。"],
+    ["laws of motion", "运动定律：讲东西怎么动、怎么停的规律。"],
+    ["invent", "发明：第一个造出新东西。"],
+    ["natural", "天然的：大自然里本来就有的，不是人造的。"],
+    ["vitamin", "维生素：身体需要的营养小帮手。"],
+    ["states of matter", "物质的状态：物质的样子，分固态、液态、气态。"] ],
+  items: [
+    ["Mars", "哪颗行星被称为「红色星球」？", "火星（Mars）。"],
+    ["Venus. Its thick atmosphere traps heat, making it the hottest planet.", "太阳系中最热的行星是哪颗？", "金星（Venus）。它的大气层很厚，把热量锁住了，像盖了一床厚被子。注意：不是离太阳最近的水星。"],
+    ["Jupiter", "太阳系中最大的行星是哪颗？", "木星（Jupiter）。"],
+    ["Oxygen", "大多数动植物呼吸需要什么气体？", "氧气（oxygen）。"],
+    ["Sir Isaac Newton", "谁提出了三大运动定律？", "艾萨克·牛顿（Sir Isaac Newton）。据说他看到苹果落地，想到了万有引力。"],
+    ["Thomas Edison", "电灯是谁发明的？", "托马斯·爱迪生（Thomas Edison）。"],
+    ["Alexander Graham Bell", "电话是谁发明的？", "亚历山大·格雷厄姆·贝尔（Alexander Graham Bell）。"],
+    ["Diamond", "地球上最坚硬的天然物质是什么？", "钻石（diamond）。natural 是「天然的」，大自然里本来就有的。"],
+    ["Vitamin D", "我们从阳光中获得哪种维生素？", "维生素 D（Vitamin D）。准确地说：皮肤晒到太阳后，身体自己做出维生素 D。"],
+    ["Solid, liquid and gas", "物质的三种状态是什么？", "固态、液态、气态（solid, liquid and gas）。例子：冰 → 水 → 水蒸气。"] ] },
+  dipE: { n0: 69,
+  terms: [
+    ["painted", "画了（paint 的过去式）。"],
+    ["dwarf", "小矮人。"],
+    ["Olympic Games", "奥林匹克运动会，也叫奥运会。"],
+    ["founder", "创始人：第一个创办的人。"],
+    ["modern", "现代的。"] ],
+  items: [
+    ["Leonardo da Vinci", "《蒙娜丽莎》是谁画的？", "列奥纳多·达·芬奇（Leonardo da Vinci）。"],
+    ["Seven", "《哈利·波特》系列一共有几本？", "7 本（seven）。"],
+    ["Seven", "《白雪公主》里有几个小矮人？", "7 个（seven）。dwarf 就是「小矮人」。"],
+    ["Greece", "奥林匹克运动会起源于哪个国家？", "希腊（Greece）。"],
+    ["Pierre de Coubertin", "谁被称为现代奥林匹克运动之父？", "皮埃尔·德·顾拜旦（Pierre de Coubertin）。founder 是「创始人」。"],
+    ["Germany", "贝多芬是哪国人？", "德国（Germany）。"] ] },
+  dipF: { n0: 75,
+  terms: [
+    ["century", "世纪：100 年。"],
+    ["lungs", "肺：用来呼吸的器官。"],
+    ["chambers", "腔室：心脏里的小「房间」。"],
+    ["blood group", "血型：A、B、AB、O 等。negative 是「阴性」。"],
+    ["red blood cell", "红细胞：血液里负责运氧气的小细胞。"],
+    ["mineral", "矿物质：身体需要的营养，比如钙、铁。"],
+    ["primary colours", "三原色：最基本的颜色，别的颜色都能用它们调出来。"],
+    ["gravitational force", "重力：地球把东西往下拉的力。"],
+    ["degrees Celsius", "摄氏度：温度单位，写作 ℃。"],
+    ["sneeze", "打喷嚏。"] ],
+  items: [
+    ["Eight", "太阳系有几颗行星？", "8 颗（eight）。"],
+    ["Bless you!", "别人打喷嚏时，你该说什么？", "Bless you!，意思是「保佑你」「祝你健康」。这是英语国家的习惯说法。"],
+    ["One hundred years", "一个世纪是多少年？", "100 年（one hundred years）。"],
+    ["Two", "人有几片肺？", "2 片（two）。lungs 是肺，用来呼吸。"],
+    ["Four", "人的心脏有几个腔？", "4 个（four）。chambers 是「腔室」，可以想成心脏里的 4 个小房间。"],
+    ["AB negative.", "最罕见的血型是什么？", "AB 型阴性（AB negative）。blood group 是血型，negative 是「阴性」。（这是题库的答案，比赛时照这个说。）"],
+    ["120 days.", "人的红细胞能存活多长时间？", "120 天。red blood cell（红细胞）是血液里负责运送氧气的小细胞。"],
+    ["Calcium.", "哪种矿物质有助于强健骨骼？", "钙（calcium）。喝牛奶可以补钙。"],
+    ["Red, yellow and blue.", "绘画颜料的三原色是什么？", "红、黄、蓝（red, yellow and blue）。primary colours 是「原色」，最基本的颜色，别的颜色可以用它们调出来。"],
+    ["Gravitational force", "把东西往上扔，为什么它会往下掉？", "因为重力（gravitational force）：地球在把所有东西往下拉。"],
+    ["100 degrees Celsius.", "正常条件下，水多少度会沸腾？", "100 摄氏度（100 degrees Celsius）。Celsius 是温度单位，写作 ℃。"] ] }
+};
+// ===== /讲解页数据 =====
+// ===== 📖 讲解页：英文在上（能点读），通俗中文在下 =====
+const lr = { set: 0 };
+{ const i = P1.filter(t => t.contest).findIndex(t => t.key === DIP_DAY[todayKey()]); if (i >= 0) lr.set = i; }
+const sayText = s => s.replace(/（.*?）/g, "").trim();
+RENDER.learn = function () {
+  renderSub();
+  const el = $("#learn"), topics = P1.filter(t => t.contest), t = topics[lr.set], L = LEARN[t.key];
+  const opts = topics.map((x, i) => `<option value="${i}" ${i === lr.set ? "selected" : ""}>${esc(x.zh.replace(/^⭐ /, ""))}</option>`).join("");
+  const sayBtn = s => `<button class="small" data-say="${esc(sayText(s))}" aria-label="朗读">🔊</button>`;
+  el.innerHTML = `<div class="card"><div class="big">📖 闯关讲解</div>
+    <p class="hint">每题上面是题库里的英文（点 🔊 可以听），下面是容易懂的中文。先看「生词小词典」，再一题一题读：要能把题目读清楚、听懂答案是什么。</p>
+    <div class="row"><select id="lSet" style="flex:1">${opts}</select></div>
+    <div class="row"><button id="lAll">🔊 从头读这一组的英文</button><button id="lStop">⏹ 停</button></div></div>
+    <div class="card"><h4 style="margin:0 0 8px">🔤 先认识这些词（${L.terms.length} 个）</h4>
+      ${L.terms.map(([en, zh]) => `<p class="term"><b>${esc(en)}</b> ${sayBtn(en)}<br>${esc(zh)}</p>`).join("")}</div>
+    ${t.qs.map(([q, full], j) => { const [bank, ask, ans] = L.items[j]; return `<div class="card lq">
+      <div class="meta"><span>第 ${L.n0 + j} 题</span></div>
+      <div class="q">${esc(q)} ${sayBtn(q)}</div>
+      <p class="enans"><b>Answer:</b> ${esc(bank)}</p>
+      <p class="hint">完整说法：${esc(full)} ${sayBtn(full)}</p>
+      <div class="zhbox"><p><b>这题问：</b>${esc(ask)}</p><p><b>答案：</b>${esc(ans)}</p></div></div>`; }).join("")}`;
+  $("#lSet", el).onchange = e => { cleanup(); lr.set = Number(e.target.value); RENDER.learn(); window.scrollTo(0, 0); };
+  $$("[data-say]", el).forEach(b => b.onclick = () => speak(b.dataset.say));
+  $("#lAll", el).onclick = () => { playTok++; speakQueue(t.qs.flatMap(([q, full]) => [q, full])); };
+  $("#lStop", el).onclick = () => stopSpeech();
 };
 // ===== 🎯 趣味闯关模拟：连续答对 3 题算通关，答错可用一次复活 =====
 const dipPool = weakOnly => P1.filter(t => t.contest).flatMap(t => t.qs.map(([q, a, zh], j) => ({ qid: `${t.key}-${j}`, q, a, zh, from: t.zh })))
