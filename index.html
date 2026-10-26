@@ -241,9 +241,11 @@ const p3w = (topic, grammar, n) => ({ topic, grammar, days: [
   `错词本 ＋ 语法：${grammar}`, "口语模拟", `整套模考 ${n}：阅读写作 60 分钟，休息 10 分钟，听力 30 分钟`, "口语模拟 10 分钟"] });
 const SAT_RW = "阅读写作全卷，限时 60 分钟", SAT_L = "听力全卷 30 分钟 ＋ 口语模拟";
 const WEEKS = [
-  { topic: "Family and friends · Personal feelings", grammar: "摸底，不学新的", days: [
-    "摸底：官网样题，阅读 ①–⑤（不限时）", "摸底：写作 ⑥⑦", "摸底：听力全卷", "对答案，看哪部分错得多",
-    "口语摸底：在「口语」页做一次完整模拟", "补没做完的摸底", "休息"] },
+  { topic: "Family and friends · Personal feelings", grammar: "比赛周，不学新的", days: [
+    "⭐ 比赛周：闯关 A1，APEC 第 1–15 题（口语页，选「⭐ 闯关 A1」）", "⭐ 闯关 A2，APEC 第 16–30 题；先复习 A1（口语页）",
+    "⭐ 闯关 B，外交与礼仪第 31–45 题；先复习 A（口语页）", "⭐ 闯关 C 世界地理 ＋ E 历史文化（第 46–58、69–74 题，口语页）",
+    "⭐ 闯关 D 科学常识 ＋ F 数理生活（第 59–68、75–85 题，口语页）", "口语页「🎯 闯关」模拟 3–5 轮，选「只抽还没熟的」，再看错题",
+    "🏆 下午比赛！上午在口语页「🎯 闯关」轻松过一轮，别太累，加油"] },
   { topic: "Education · Time", grammar: "一般过去时，不规则动词", days: [
     "阅读 ① 告示、② 配对", "听力 ① 看图、② 填笔记", "写作 ⑥ 邮件：3 个问题都要答到",
     "阅读 ④⑤ 填空 ＋ 语法：一般过去时", "口语第 1 部分：介绍自己", "阅读 ①–⑤，限时 40 分钟", "休息"] },
@@ -811,7 +813,114 @@ const P1 = [
     ["When is your birthday?", "My birthday is in ____."],
     ["What did you do on your last birthday?", "I had a party with my friends. We ate cake and played games."],
     ["What's your favourite festival?", "My favourite festival is Spring Festival, because we eat dumplings with our family."] ],
-    tell: ["Please tell me something about Spring Festival.", "At Spring Festival, my whole family has a big dinner together. We eat dumplings and fish. Children get red envelopes, and we watch fireworks at night."] }
+    tell: ["Please tell me something about Spring Festival.", "At Spring Festival, my whole family has a big dinner together. We eat dumplings and fish. Children get red envelopes, and we watch fireworks at night."] },
+  // 比赛的趣味闯关（85 题，照比赛方题库原文；不是 KET 考点，不进「完整模拟」和「随机一题」）。参考答案改成完整句子，中文里附题库原答案
+  { key: "dipA1", zh: "⭐ 闯关 A1 · APEC（第 1–15 题）", en: "", contest: true,
+    tip: "闯关：用一句完整的话回答，要说出题库答案里的关键词。比赛规则是连续答对 3 题算通关。",
+    qs: [
+      ["What does APEC stand for?", "APEC stands for Asia-Pacific Economic Cooperation.", "问：APEC 的英文全称是什么？\n答：亚太经济合作组织（亚太经合组织）。\n题库答案：Asia-Pacific Economic Cooperation"],
+      ["How many member economies does APEC have?", "APEC has twenty-one member economies.", "问：APEC 有多少个成员经济体？\n答：21 个。\n题库答案：21"],
+      ["Which city will host the APEC 2026 Economic Leaders' Meeting?", "It will be held in Shenzhen, China.", "问：2026 年 APEC 在哪个城市举办？\n答：中国深圳\n题库答案：Shenzhen, China"],
+      ["What is the theme of APEC 2026?", "The theme is Building an Asia-Pacific Community.", "问：2026 年 APEC 会议主题是什么？\n答：建设亚太共同体。\n题库答案：Building an Asia-Pacific Community"],
+      ["What are the three priority areas of APEC 2026?", "They are Open, Innovate and Cooperate.", "问：2026 年 APEC 的三大优先领域是什么？\n答：开放、创新、合作。\n题库答案：Open, Innovate, Cooperate"],
+      ["Which APEC committee deals with trade and investment?", "It is the Committee on Trade and Investment, or CTI.", "问：APEC 中负责贸易与投资的委员会是哪个？\n答：贸易与投资委员会。\n题库答案：Committee on Trade and Investment (CTI)"],
+      ["What does DESG mainly discuss?", "DESG mainly discusses the digital economy, including AI and e-commerce.", "问：DESG（数字经济指导组）主要讨论什么？\n答：数字经济，包括人工智能和电子商务。\n题库答案：Digital economy, including AI and e-commerce"],
+      ["What does OFWG focus on?", "OFWG focuses on protecting the ocean and sustainable fishing.", "问：APEC 的 OFWG（海洋与渔业工作组）负责什么？\n答：保护海洋和可持续渔业。\n题库答案：Protecting the ocean and sustainable fishing"],
+      ["What is tariff?", "A tariff is a tax charged on imported goods.", "问：什么是关税？\n答：对进口商品征收的费用。\n题库答案：A tax charged on imported goods"],
+      ["If a country raises tariffs, what happens to imported goods?", "They become more expensive.", "问：如果提高关税，进口商品会怎么样？\n答：商品会变得更贵。\n题库答案：They become more expensive"],
+      ["What is a supply chain?", "A supply chain is the journey of a product from raw materials to the customer.", "问：什么是供应链？\n答：产品从原材料到消费者手中的完整流程。\n题库答案：The journey of a product from raw materials to the customer"],
+      ["What is intellectual property?", "Intellectual property means legal rights that protect creations like inventions, books and artworks.", "问：什么是知识产权？\n答：保护发明、书籍和艺术作品等创造成果的法律权利。\n题库答案：Legal rights that protect creations like inventions, books and artworks"],
+      ["Why does APEC help lower tariffs?", "APEC helps lower tariffs to make goods cheaper and trade easier.", "问：APEC 为什么要推动降低关税？\n答：为了让商品更便宜、贸易更方便。\n题库答案：To make goods cheaper and trade easier"],
+      ["Which technology helped foreign tourists buy Suzhou plum blossom cake easily?", "It was Alipay+ cross-border payment technology.", "问：什么技术帮助外国游客便捷购买苏州梅花糕？\n答：Alipay+跨境支付技术。\n题库答案：Alipay+ cross-border payment technology"],
+      ["Which cities host APEC 2026 events besides Shenzhen?", "Shanghai, Suzhou, Guangzhou and others host events too. The Economic Leaders' Meeting is in Shenzhen.", "问：2026 年 APEC 系列会议除深圳外还在哪些城市举办？\n答：上海、苏州、广州等；领导人会议在深圳。\n题库答案：Shanghai, Suzhou, Guangzhou and others; the Economic Leaders' Meeting is in Shenzhen."] ] },
+  { key: "dipA2", zh: "⭐ 闯关 A2 · APEC（第 16–30 题）", en: "", contest: true,
+    tip: "闯关：用一句完整的话回答，要说出题库答案里的关键词。比赛规则是连续答对 3 题算通关。",
+    qs: [
+      ["What does PPFS stand for in APEC?", "PPFS stands for Policy Partnership on Food Security.", "问：APEC 中的 PPFS 全称是什么？\n答：粮食安全政策伙伴关系。\n题库答案：Policy Partnership on Food Security."],
+      ["What is the role of APEC's Anti-Corruption Working Group?", "It promotes fair and transparent business and fights corruption.", "问：APEC 反贪腐工作组的职责是什么？\n答：促进公平透明的商业环境，打击腐败。\n题库答案：To promote fair and transparent business and fight corruption."],
+      ["How does APEC help small businesses?", "APEC helps small businesses by connecting them with international platforms and e-commerce channels.", "问：APEC 如何帮助小型企业？\n答：通过国际平台和电商渠道帮它们对接市场。\n题库答案：By connecting them with international platforms and e-commerce channels."],
+      ["How does APEC promote tourism?", "APEC promotes tourism by making visa applications easier.", "问：APEC 如何促进旅游业发展？\n答：通过简化签证办理手续。\n题库答案：By making visa applications easier."],
+      ["What is the difference between APEC and the UN?", "APEC cannot make binding laws like the UN. It promotes cooperation through dialogue and consultation.", "问：APEC 与联合国有什么不同？\n答：APEC 不能像联合国那样制定强制性法律，而是通过对话与协商促进合作。\n题库答案：APEC cannot make binding laws like the UN; it promotes cooperation through dialogue and consultation."],
+      ["What does the letter \"A\" stand for in the abbreviation APEC?", "The letter A stands for Asia.", "问：APEC 这个缩写中的字母“A”代表什么？\n答：亚洲\n题库答案：Asia"],
+      ["What is the official theme for APEC 2026 held in Shenzhen?", "The official theme is Building an Asia-Pacific Community.", "问：2026 年在深圳举行的亚太经合会的官方主题是什么？\n答：建设亚太共同体\n题库答案：Building an Asia-Pacific Community"],
+      ["Where is the APEC Secretariat located?", "The APEC Secretariat is in Singapore.", "问：APEC 秘书处设在哪里？\n答：新加坡。\n题库答案：In Singapore."],
+      ["Which group of people represents business interests and gives advice to APEC leaders?", "It is ABAC, the APEC Business Advisory Council.", "问：哪个组织代表商界利益并向 APEC 领导人提供建议？\n答：APEC 工商咨询理事会\n题库答案：ABAC (APEC Business Advisory Council)"],
+      ["What is the \"hot topic\" for technology in the 2026 APEC meetings?", "The hot topic is Artificial Intelligence, or AI.", "问：2026 年 APEC 会议中科技领域的“热门话题”是什么？\n答：人工智能\n题库答案：Artificial Intelligence (AI)"],
+      ["How often is the APEC Economic Leaders' Meeting held?", "It is held once every year.", "问：APEC 经济领导人会议多久举行一次？\n答：每年举办一次。\n题库答案：It is held once every year."],
+      ["How can AI help farmers according to APEC discussions?", "AI can predict the weather and help crops grow better.", "问：根据 APEC 的相关讨论，人工智能如何帮助农民？\n答：人工智能可以预测天气，帮助农作物长得更好。\n题库答案：AI can predict weather and help crops grow better."],
+      ["When was APEC founded?", "APEC was founded in 1989.", "问：APEC 是哪一年成立的？\n答：1989 年。\n题库答案：In 1989."],
+      ["What is a \"Working Group\" in APEC?", "A working group is a small team that works on specific topics like health or security.", "问：APEC 中的“工作组”是什么？\n答：针对健康、安全等具体议题开展工作的小组\n题库答案：A small team that works on specific topics like health or security."],
+      ["The \"Ministerial Meeting\" is higher than the \"Officials' Meeting\". What is the topmost level of meeting called?", "The topmost level is the Economic Leaders' Meeting.", "问：部长级会议高于高官会，那么最高级别的会议叫什么？\n答：经济领导人会议\n题库答案：The Economic Leaders' Meeting"] ] },
+  { key: "dipB", zh: "⭐ 闯关 B · 外交与礼仪（第 31–45 题）", en: "", contest: true,
+    tip: "闯关：用一句完整的话回答，要说出题库答案里的关键词。比赛规则是连续答对 3 题算通关。",
+    qs: [
+      ["What are diplomatic relations?", "Diplomatic relations are relations that sovereign countries build and keep through diplomatic activities.", "问：什么是外交关系？\n答：主权国家之间通过外交活动建立和维护的关系。\n题库答案：Relations established between sovereign countries through diplomatic activities"],
+      ["How many countries and regions are there in the world?", "There is no globally agreed fixed number. The UN has 193 member states, plus some observer states and other regions.", "问：世界上有多少个国家和地区？\n答：没有全球统一固定数字；联合国有 193 个会员国，另有部分观察员国及其他地区。\n题库答案：There is no globally agreed fixed number. There are 193 member states in the UN, plus some observer states and other regions."],
+      ["What is the UN?", "The UN is an international organization of governments dedicated to peace, development and cooperation.", "问：什么是联合国？\n答：由各国政府组成的国际组织，致力于和平、发展与合作。\n题库答案：An international organization of governments dedicated to peace, development and cooperation"],
+      ["How many member states does the UN have?", "The UN has 193 member states.", "问：联合国有多少个会员国？\n答：193 个。\n题库答案：193"],
+      ["Where is the UN headquarters?", "The UN headquarters is in New York City.", "问：联合国总部在哪里？\n答：美国纽约。\n题库答案：New York City"],
+      ["What is the UN Security Council?", "It is a main UN body responsible for maintaining international peace and security.", "问：什么是联合国安全理事会？\n答：联合国负责维护国际和平与安全的主要机构。\n题库答案：A main UN body responsible for maintaining international peace and security"],
+      ["Which are the five permanent members of the UN Security Council?", "They are China, France, Russia, the UK and the US.", "问：安理会五个常任理事国是哪些？\n答：中国、法国、俄罗斯、英国和美国。\n题库答案：China, France, Russia, the UK and the US"],
+      ["What is international law?", "International law is a set of rules and principles agreed upon by countries to regulate their relations.", "问：什么是国际法？\n答：各国共同制定和遵守、用于规范国家间关系的规则和原则。\n题库答案：Rules and principles agreed upon by countries to regulate their relations"],
+      ["What is international humanitarian law?", "It is a set of laws that protect civilians, the wounded and prisoners of war during conflicts.", "问：什么是国际人道主义法？\n答：在冲突中保护平民、伤者和战俘的法律规范。\n题库答案：Laws that protect civilians, the wounded and prisoners of war during conflicts"],
+      ["When receiving a foreign head of state, what etiquette is used?", "We use a red carpet, a military band and the national anthem.", "问：迎接外国元首时通常使用什么礼仪？\n答：红地毯、军乐队和国歌。\n题库答案：Red carpet, military band and national anthem"],
+      ["When you receive a gift in Japan, what should you do?", "You should receive it with both hands and express thanks.", "问：在日本接受礼物时应该怎么做？\n答：用双手接过并表示感谢。\n题库答案：Receive it with both hands and express thanks"],
+      ["In Chinese dining etiquette, who starts the meal first?", "The elders start the meal first.", "问：在中国用餐礼仪中，谁先开始用餐？\n答：长辈。\n题库答案：The elders"],
+      ["In international conferences, which language should speakers use?", "Speakers should use English or French.", "问：在国际会议中，发言者应使用哪种语言？\n答：英语或法语。\n题库答案：English or French."],
+      ["What etiquette should we pay attention to when receiving foreign guests?", "We should follow the principle of “guest first”: pay attention to welcome and farewell etiquette, meetings and banquets, and understand the guests' background and preferences.", "问：在接待外宾时，我们应该注意哪些礼仪？\n答：我们应该注意迎送礼节、会谈和宴请等方面，了解外宾的背景和喜好，安排合适的会谈场所和餐饮，并遵循主宾优先的原则。\n题库答案：We should pay attention to welcome and farewell etiquette, meetings and banquets, understand the background and preferences of foreign guests, arrange appropriate venues and meals, and follow the principle of “guest first”."],
+      ["Please describe the international flag-raising etiquette.", "Stand at attention, take off your hat and watch the flag respectfully. Military personnel should salute.", "问：请说出国际升旗礼仪。\n答：立正，脱帽，行注目礼。军人应当行军礼。\n题库答案：Stand at attention, take off your hat and watch the flag respectfully. Military personnel should salute."] ] },
+  { key: "dipC", zh: "⭐ 闯关 C · 世界地理（第 46–58 题）", en: "", contest: true,
+    tip: "闯关：用一句完整的话回答，要说出题库答案里的关键词。比赛规则是连续答对 3 题算通关。",
+    qs: [
+      ["Which ancient civilization built the pyramids?", "The ancient Egyptians built the pyramids.", "问：金字塔是由哪个古代文明建造的？\n答：古埃及人。\n题库答案：The Egyptians"],
+      ["In which country is the Eiffel Tower located?", "The Eiffel Tower is in France.", "问：埃菲尔铁塔位于哪个国家？\n答：法国。\n题库答案：France"],
+      ["What is the capital of the USA?", "The capital of the USA is Washington, D.C.", "问：美国的首都是哪里？\n答：华盛顿特区。\n题库答案：Washington, D.C."],
+      ["Who was the first President of the United States?", "The first President was George Washington.", "问：美国第一任总统是谁？\n答：乔治·华盛顿。\n题库答案：George Washington"],
+      ["Which is the largest state in the USA?", "The largest state is Alaska.", "问：美国面积最大的州是哪个？\n答：阿拉斯加州。\n题库答案：Alaska"],
+      ["Which is the biggest ocean on Earth?", "The biggest ocean on Earth is the Pacific Ocean.", "问：地球上最大的海洋是哪个？\n答：太平洋。\n题库答案：The Pacific Ocean"],
+      ["Name the longest river in the world.", "The longest river in the world is the Nile.", "问：世界上最长的河流是什么？\n答：尼罗河。\n题库答案：The Nile"],
+      ["Which is the highest mountain in the world?", "The highest mountain in the world is Mount Everest.", "问：世界最高峰是哪座？\n答：珠穆朗玛峰。\n题库答案：Mount Everest"],
+      ["Which is the smallest continent?", "The smallest continent is Oceania.", "问：面积最小的大洲是哪个？\n答：大洋洲。\n题库答案：Oceania"],
+      ["Which is the largest continent?", "The largest continent is Asia.", "问：面积最大的大洲是哪个？\n答：亚洲。\n题库答案：Asia"],
+      ["Which country gifted the Statue of Liberty to the US?", "France gave the Statue of Liberty to the US.", "问：哪国将自由女神像赠送给美国？\n答：法国。\n题库答案：France"],
+      ["Which country is the biggest producer of coffee?", "Brazil is the biggest producer of coffee.", "问：世界上最大的咖啡生产国是哪个？\n答：巴西。\n题库答案：Brazil"],
+      ["Which is the most populous country in the world?", "India is the most populous country in the world.", "问：世界上人口最多的国家是哪个？\n答：印度。\n题库答案：India"] ] },
+  { key: "dipD", zh: "⭐ 闯关 D · 科学常识（第 59–68 题）", en: "", contest: true,
+    tip: "闯关：用一句完整的话回答，要说出题库答案里的关键词。比赛规则是连续答对 3 题算通关。",
+    qs: [
+      ["Which planet is known as the Red Planet?", "Mars is known as the Red Planet.", "问：哪颗行星被称为“红色星球”？\n答：火星。\n题库答案：Mars"],
+      ["Which planet is the hottest in the solar system?", "Venus is the hottest planet. Its thick atmosphere traps heat.", "问：太阳系中最热的行星是哪颗？\n答：金星。它厚厚的大气层锁住热量，让它成为最热的行星。\n题库答案：Venus. Its thick atmosphere traps heat, making it the hottest planet."],
+      ["Which is the largest planet in the solar system?", "Jupiter is the largest planet in the solar system.", "问：太阳系中最大的行星是哪颗？\n答：木星。\n题库答案：Jupiter"],
+      ["What gas do most animals and plants need to breathe?", "Most animals and plants need oxygen to breathe.", "问：大多数动植物呼吸需要什么气体？\n答：氧气。\n题库答案：Oxygen"],
+      ["Who gave the three laws of motion?", "Sir Isaac Newton gave the three laws of motion.", "问：谁提出了三大运动定律？\n答：艾萨克·牛顿。\n题库答案：Sir Isaac Newton"],
+      ["Who invented the electric light?", "Thomas Edison invented the electric light.", "问：电灯是谁发明的？\n答：托马斯·爱迪生。\n题库答案：Thomas Edison"],
+      ["Who invented the telephone?", "Alexander Graham Bell invented the telephone.", "问：电话是谁发明的？\n答：亚历山大·格雷厄姆·贝尔。\n题库答案：Alexander Graham Bell"],
+      ["What is the hardest natural material on Earth?", "Diamond is the hardest natural material on Earth.", "问：地球上最坚硬的天然物质是什么？\n答：钻石。\n题库答案：Diamond"],
+      ["Which vitamin do we get from the sun?", "We get Vitamin D from the sun.", "问：我们从阳光中获取哪种维生素？\n答：维生素 D。\n题库答案：Vitamin D\n（注释：Human bodies produce Vitamin D when skin is exposed to sunlight, rather than getting it directly from sunlight.）"],
+      ["What are the three states of matter?", "The three states of matter are solid, liquid and gas.", "问：物质的三态是什么？\n答：固态、液态和气态。\n题库答案：Solid, liquid and gas"] ] },
+  { key: "dipE", zh: "⭐ 闯关 E · 历史文化（第 69–74 题）", en: "", contest: true,
+    tip: "闯关：用一句完整的话回答，要说出题库答案里的关键词。比赛规则是连续答对 3 题算通关。",
+    qs: [
+      ["Who painted the Mona Lisa?", "Leonardo da Vinci painted the Mona Lisa.", "问：《蒙娜丽莎》是谁画的？\n答：列奥纳多·达·芬奇。\n题库答案：Leonardo da Vinci"],
+      ["How many Harry Potter books are there?", "There are seven Harry Potter books.", "问：《哈利·波特》系列共有多少本？\n答：7 本。\n题库答案：Seven"],
+      ["How many dwarfs are there in Snow White?", "There are seven dwarfs in Snow White.", "问：《白雪公主》中有多少个小矮人？\n答：7 个。\n题库答案：Seven"],
+      ["Which country started the Olympic Games tradition?", "Greece started the Olympic Games tradition.", "问：奥林匹克运动会起源于哪个国家？\n答：希腊。\n题库答案：Greece"],
+      ["Who is considered the founder of the modern Olympic Games?", "Pierre de Coubertin is considered the founder of the modern Olympic Games.", "问：谁被称为现代奥林匹克运动之父？\n答：皮埃尔·德·顾拜旦。\n题库答案：Pierre de Coubertin"],
+      ["Which country is Beethoven from?", "Beethoven is from Germany.", "问：贝多芬是哪国人？\n答：德国。\n题库答案：Germany"] ] },
+  { key: "dipF", zh: "⭐ 闯关 F · 数理生活（第 75–85 题）", en: "", contest: true,
+    tip: "闯关：用一句完整的话回答，要说出题库答案里的关键词。比赛规则是连续答对 3 题算通关。",
+    qs: [
+      ["How many planets are there in the solar system?", "There are eight planets in the solar system.", "问：太阳系有多少颗行星？\n答：8 颗。\n题库答案：Eight"],
+      ["What do you say when someone else sneezes?", "We say “Bless you!”", "问：别人打喷嚏时你该说什么？\n答：保佑你！祝你健康！\n题库答案：Bless you!"],
+      ["How many years make a century?", "One hundred years make a century.", "问：一个世纪是多少年？\n答：100 年。\n题库答案：One hundred years"],
+      ["How many lungs do human beings have?", "Human beings have two lungs.", "问：人有几片肺？\n答：2 片。\n题库答案：Two"],
+      ["How many chambers are there in the human heart?", "The human heart has four chambers.", "问：人的心脏有几个腔室？\n答：4 个。\n题库答案：Four"],
+      ["What is the rarest blood group?", "The rarest blood group is AB negative.", "问：最罕见的血型是什么？\n答：AB 型阴性。\n题库答案：AB negative."],
+      ["How long can a human red blood cell survive?", "A human red blood cell can survive for 120 days.", "问：人的红细胞能存活多长时间？\n答：120 天。\n题库答案：120 days."],
+      ["Which mineral helps strengthen bones?", "Calcium helps strengthen bones.", "问：哪种矿物质有助于强健骨骼？\n答：钙。\n题库答案：Calcium."],
+      ["What are the primary colours for paint/art?", "The primary colours for paint are red, yellow and blue.", "问：绘画颜料的三原色是什么？\n答：红、黄、蓝。\n题库答案：Red, yellow and blue."],
+      ["What makes things fall down when you throw them upwards?", "Gravitational force makes things fall down.", "问：什么东西往上抛时会往下掉？\n答：重力。\n题库答案：Gravitational force"],
+      ["What temperature does water boil at under normal conditions?", "Water boils at 100 degrees Celsius under normal conditions.", "问：正常条件下水沸腾的温度是多少？\n答：100 摄氏度。\n题库答案：100 degrees Celsius."] ] }
 ];
 const qsOf = t => t.tell ? [...t.qs, t.tell] : t.qs;
 
@@ -1402,19 +1511,97 @@ function wireWords(el) {
 }
 
 // ===== 口语 =====
-const sv = { mode: "p1", topic: 1, qi: 0, ref: false, text: false, p2: 0, mock: null };
+const sv = { mode: "p1", topic: 1, qi: 0, ref: false, text: false, p2: 0, mock: null, dip: null, dipOnly: false };
+// 比赛周（10/26–10/30）：打开口语页，默认停在当天要练的闯关话题
+const DIP_DAY = { "2026-10-26": "dipA1", "2026-10-27": "dipA2", "2026-10-28": "dipB", "2026-10-29": "dipC", "2026-10-30": "dipD" };
+{ const i = P1.findIndex(t => t.key === DIP_DAY[todayKey()]); if (i >= 0) sv.topic = i; }
 const rateTag = r => r ? `<span class="tag r${r}">${["", "还不熟", "还行", "很熟了"][r]}</span>` : `<span class="tag">没练过</span>`;
 RENDER.speak = function () {
   renderSub();
   const el = $("#speak");
-  let h = `<div class="seg"><button data-m="p1" class="${sv.mode === "p1" ? "on" : ""}">① 考官问我</button><button data-m="p2" class="${sv.mode === "p2" ? "on" : ""}">② 看图聊</button><button data-m="mock" class="${sv.mode === "mock" ? "on" : ""}">完整模拟</button></div>`;
-  h += sv.mode === "p1" ? p1View() : sv.mode === "p2" ? p2View() : mockView();
+  let h = `<div class="seg"><button data-m="p1" class="${sv.mode === "p1" ? "on" : ""}">① 考官问我</button><button data-m="p2" class="${sv.mode === "p2" ? "on" : ""}">② 看图聊</button><button data-m="mock" class="${sv.mode === "mock" ? "on" : ""}">完整模拟</button><button data-m="dip" class="${sv.mode === "dip" ? "on" : ""}">🎯 闯关</button></div>`;
+  h += sv.mode === "p1" ? p1View() : sv.mode === "p2" ? p2View() : sv.mode === "dip" ? dipView() : mockView();
   el.innerHTML = h;
   $$(".seg button", el).forEach(b => b.onclick = () => { cleanup(); sv.mode = b.dataset.m; sv.ref = false; sv.text = false; RENDER.speak(); });
-  if (sv.mode === "p1") wireP1(el); else if (sv.mode === "p2") wireP2(el); else wireMock(el);
+  if (sv.mode === "p1") wireP1(el); else if (sv.mode === "p2") wireP2(el); else if (sv.mode === "dip") wireDip(el); else wireMock(el);
 };
+// ===== 🎯 趣味闯关模拟：连续答对 3 题算通关，答错可用一次复活 =====
+const dipPool = weakOnly => P1.filter(t => t.contest).flatMap(t => t.qs.map(([q, a, zh], j) => ({ qid: `${t.key}-${j}`, q, a, zh, from: t.zh })))
+  .filter(x => !weakOnly || (SP[x.qid] || 0) < 3);
+function dipDraw(weakOnly) {
+  let pool = dipPool(weakOnly), note = "";
+  if (pool.length < 3) { pool = dipPool(false); note = "还没熟的题不够 3 道，这次从全部题里抽。"; }
+  for (let i = pool.length - 1; i > 0; i--) { const k = Math.floor(Math.random() * (i + 1)); [pool[i], pool[k]] = [pool[k], pool[i]]; }
+  return { qs: pool.slice(0, 3), note };
+}
+function dipStart() {
+  const r = dipDraw(sv.dipOnly);
+  sv.dip = { qs: r.qs, i: 0, revive: 1, state: "play", show: false, missed: [], msg: r.note };
+  sv.text = false;
+}
+function dipView() {
+  const d = sv.dip;
+  if (!d) {
+    const all = dipPool(false).length, weak = dipPool(true).length;
+    return `<div class="card"><div class="big">🎯 趣味闯关模拟</div>
+      <p>像比赛现场一样：主播连续问 3 个问题，<b>连续答对 3 题算通关</b>。每次挑战只有一次机会，中途答错可以用一次「复活机会」，重新连续答 3 题。</p>
+      <p class="hint">爸爸或妈妈当主播：听完题大声回答，再点「看答案」对一对，由主播点 ✓ 或 ✗。题库共 ${all} 题，还没熟的 ${weak} 题。</p>
+      <div class="row"><label><input type="radio" name="dScope" value="all" ${sv.dipOnly ? "" : "checked"}> 全部题</label>
+      <label><input type="radio" name="dScope" value="weak" ${sv.dipOnly ? "checked" : ""}> 只抽还没熟的</label></div>
+      <div class="row"><button class="primary" id="dStart">开始挑战</button></div></div>`;
+  }
+  if (d.state === "clear") return `<div class="card" style="text-align:center"><div class="big">🎉 通关啦！</div><p>连续答对了 3 题，太棒了！${d.missed.length ? "" : "而且一题没错 👏"}</p>
+    <div class="row"><button class="primary" id="dAgain">再挑战一次</button><button data-a="dquit">返回</button></div></div>`;
+  if (d.state === "over") return `<div class="card"><div class="big">这次没通关 💪</div><p>把答错的题再看看，下次一定行：</p>
+    ${d.missed.map(x => `<div class="fu"><div>${esc(x.q)}</div><p class="ans">${esc(x.a)}</p></div>`).join("")}
+    <div class="row" style="margin-top:12px"><button class="primary" id="dAgain">再挑战一次</button><button data-a="dquit">返回</button></div></div>`;
+  const x = d.qs[d.i], hide = settings.listenOnly && !sv.text;
+  return `<div class="card">
+    <div class="meta"><span>闯关 · 第 ${d.i + 1} / 3 题 · 复活机会 ${d.revive} 次</span><span class="tag">${esc(x.from.replace(/^⭐ 闯关 /, ""))}</span></div>
+    ${d.msg ? `<p class="hint">${esc(d.msg)}</p>` : ""}
+    <div class="q ${hide ? "hidden" : ""}">${esc(x.q)}</div>
+    <div class="row"><button data-a="say">🔊 再听一遍</button>${hide ? `<button data-a="text">👀 看题目</button>` : ""}<button data-a="ans">💡 ${d.show ? "收起答案" : "看答案"}</button></div>
+    <div id="dRec"></div>
+    <div class="ref" ${d.show ? "" : "hidden"}><h4>参考答案</h4><p class="ans">${esc(x.a)}</p>${x.zh ? `<p class="hint" style="white-space:pre-line">${esc(x.zh)}</p>` : ""}<button class="small" data-a="sayref">🔊 听参考</button></div>
+    <div class="row rate"><button class="b3" data-a="ok">✓ 答对了</button><button class="b1" data-a="no">✗ 没答对</button></div>
+    <div class="row"><button data-a="dquit">退出</button></div>
+  </div>`;
+}
+function dipAnswer(ok) {
+  const d = sv.dip, x = d.qs[d.i];
+  cleanup(); d.show = false; sv.text = false; d.msg = "";
+  if (ok) {
+    SP[x.qid] = (SP[x.qid] || 0) >= 2 ? 3 : 2; store.set("sp", SP);
+    award(3, "闯关答对", "sp:" + x.qid, "speak");
+    d.i++;
+    if (d.i >= 3) { d.state = "clear"; bump("dip"); award(15, "趣味闯关通关", "dip-clear", "speak"); celebrate("🎉", "闯关成功！", "连续答对 3 题"); }
+  } else {
+    SP[x.qid] = 1; store.set("sp", SP); d.missed.push(x);
+    if (d.revive > 0) { const r = dipDraw(sv.dipOnly); d.revive--; d.qs = r.qs; d.i = 0; d.msg = "答错啦，用掉一次复活机会，重新连续答 3 题。"; }
+    else d.state = "over";
+  }
+}
+function wireDip(el) {
+  const st = $("#dStart", el);
+  if (st) st.onclick = () => { sv.dipOnly = ($('input[name="dScope"]:checked', el) || {}).value === "weak"; dipStart(); RENDER.speak(); };
+  const d = sv.dip; if (!d) return;
+  const again = $("#dAgain", el); if (again) again.onclick = () => { dipStart(); RENDER.speak(); };
+  if (d.state !== "play") { $$("[data-a=dquit]", el).forEach(b => b.onclick = () => { sv.dip = null; RENDER.speak(); }); return; }
+  const x = d.qs[d.i];
+  recWidget($("#dRec", el), () => award(2, "闯关录音", "rec:" + x.qid, "speak"));
+  $$("[data-a]", el).forEach(b => b.onclick = () => {
+    const a = b.dataset.a;
+    if (a === "say") speak(x.q);
+    else if (a === "text") { sv.text = true; RENDER.speak(); }
+    else if (a === "ans") { d.show = !d.show; $(".ref", el).hidden = !d.show; b.textContent = d.show ? "💡 收起答案" : "💡 看答案"; }
+    else if (a === "sayref") speak(x.a);
+    else if (a === "dquit") { cleanup(); sv.dip = null; RENDER.speak(); }
+    else if (a === "ok" || a === "no") { dipAnswer(a === "ok"); RENDER.speak(); }
+  });
+  speak(x.q);
+}
 function p1View() {
-  const t = P1[sv.topic], list = qsOf(t), [q, a] = list[sv.qi], qid = `${t.key}-${sv.qi}`;
+  const t = P1[sv.topic], list = qsOf(t), [q, a, zh] = list[sv.qi], qid = `${t.key}-${sv.qi}`;
   const isTell = !!t.tell && sv.qi === list.length - 1, hide = settings.listenOnly && !sv.text;
   const opts = P1.map((x, i) => {
     const n = qsOf(x).filter((_, j) => SP[`${x.key}-${j}`] === 3).length;
@@ -1427,8 +1614,8 @@ function p1View() {
     <div class="row"><button data-a="say">🔊 再听一遍</button>${hide ? `<button data-a="text">👀 看题目</button>` : ""}<button data-a="ref">💡 ${sv.ref ? "收起参考" : "看参考"}</button></div>
     <div id="p1Rec"></div>
     <div class="ref" ${sv.ref ? "" : "hidden"}>
-      <h4>参考说法（换成你自己的）</h4><p class="ans">${esc(a)}</p><button class="small" data-a="sayref">🔊 听参考</button>
-      <h4>窍门</h4><p>${isTell ? "说 3 句以上：是什么 → 细节 → 你的感受。" : "回答 ＋ 多说一句（原因或例子）。别只说 Yes 或 No。"}</p>
+      <h4>${t.contest ? "参考答案" : "参考说法（换成你自己的）"}</h4><p class="ans">${esc(a)}</p>${zh ? `<p class="hint" style="white-space:pre-line">${esc(zh)}</p>` : ""}<button class="small" data-a="sayref">🔊 听参考</button>
+      <h4>窍门</h4><p>${isTell ? "说 3 句以上：是什么 → 细节 → 你的感受。" : t.tip || "回答 ＋ 多说一句（原因或例子）。别只说 Yes 或 No。"}</p>
     </div>
     <label class="lbl" for="myAns">我的答案（自动保存）</label>
     <textarea id="myAns" rows="2" placeholder="把你自己的回答写在这里，下次照着练">${esc(MY[qid] || "")}</textarea>
@@ -1443,7 +1630,7 @@ function p1Say() {
 function wireP1(el) {
   const t = P1[sv.topic], list = qsOf(t), qid = `${t.key}-${sv.qi}`;
   $("#p1T").onchange = e => { cleanup(); sv.topic = Number(e.target.value); sv.qi = 0; sv.ref = false; sv.text = false; RENDER.speak(); };
-  $("#p1R").onclick = () => { cleanup(); sv.topic = Math.floor(Math.random() * P1.length); sv.qi = Math.floor(Math.random() * qsOf(P1[sv.topic]).length); sv.ref = false; sv.text = false; RENDER.speak(); };
+  $("#p1R").onclick = () => { cleanup(); if (t.contest) sv.qi = Math.floor(Math.random() * list.length); else { sv.topic = rnd(P1.map((x, i) => i).filter(i => !P1[i].contest)); sv.qi = Math.floor(Math.random() * qsOf(P1[sv.topic]).length); } sv.ref = false; sv.text = false; RENDER.speak(); };
   recWidget($("#p1Rec", el), () => award(2, "口语录音", "rec:" + qid, "speak"));
   $("#myAns").oninput = e => { MY[qid] = e.target.value; store.set("my", MY); };
   $$("[data-a]", el).forEach(b => b.onclick = () => {
@@ -1496,7 +1683,7 @@ function wireP2(el) {
 }
 function buildMock() {
   const op = P1[0].qs.slice(0, 3).map(([q], i) => ({ part: 1, text: q, say: i === 0 ? `Hello. ${q}` : q }));
-  const t = P1[1 + Math.floor(Math.random() * (P1.length - 1))];
+  const t = rnd(P1.slice(1).filter(x => !x.contest));
   const tq = qsOf(t).map(([q], i) => ({ part: 1, text: q, say: i === 0 ? `Now, let's talk about ${t.en}. ${q}` : q }));
   const p = rnd(P2);
   return { i: 0, steps: [...op, ...tq,
