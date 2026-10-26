@@ -67,6 +67,7 @@ audio { width: 100%; margin-top: 6px; }
 .enans { font-size: 17px; margin: 6px 0 2px; }
 .zhbox { background: var(--soft); border-radius: 10px; padding: 8px 12px; margin-top: 8px; }
 .zhbox p { margin: 6px 0; font-size: 16px; line-height: 1.65; }
+#hName { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 16px; background: var(--card); color: inherit; }
 .tag.r1 { color: var(--bad); border-color: var(--bad); }
 .tag.r2 { color: var(--mid); border-color: var(--mid); }
 .tag.r3 { color: var(--good); border-color: var(--good); }
@@ -202,6 +203,7 @@ header { display: flex; justify-content: space-between; align-items: flex-start;
   <button data-tab="words">单词</button>
   <button data-tab="speak">口语</button>
   <button data-tab="learn">📖 讲解</button>
+  <button data-tab="host">🎤 擂主</button>
   <button data-tab="listen">听力</button>
   <button data-tab="write">写作</button>
   <button data-tab="reward">奖励</button>
@@ -210,6 +212,7 @@ header { display: flex; justify-content: space-between; align-items: flex-start;
 <section id="words" hidden></section>
 <section id="speak" hidden></section>
 <section id="learn" hidden></section>
+<section id="host" hidden></section>
 <section id="listen" hidden></section>
 <section id="write" hidden></section>
 <section id="reward" hidden></section>
@@ -248,10 +251,10 @@ const p3w = (topic, grammar, n) => ({ topic, grammar, days: [
 const SAT_RW = "阅读写作全卷，限时 60 分钟", SAT_L = "听力全卷 30 分钟 ＋ 口语模拟";
 const WEEKS = [
   { topic: "Family and friends · Personal feelings", grammar: "比赛周，不学新的", days: [
-    "⭐ 比赛周：先在「📖 讲解」页看懂 A1，再去口语页练 A1（APEC 第 1–15 题）", "⭐ 「📖 讲解」看懂 A2，再去口语页练 A2（APEC 第 16–30 题）；先复习 A1",
-    "⭐ 「📖 讲解」看懂 B，再去口语页练 B（外交与礼仪第 31–45 题）；先复习 A", "⭐ 「📖 讲解」看懂 C、E，再去口语页练（世界地理 ＋ 历史文化，第 46–58、69–74 题）",
-    "⭐ 「📖 讲解」看懂 D、F，再去口语页练（科学常识 ＋ 数理生活，第 59–68、75–85 题）", "口语页「🎯 闯关」模拟 3–5 轮，选「只抽还没熟的」，再看错题",
-    "🏆 下午比赛！上午在口语页「🎯 闯关」轻松过一轮，别太累，加油"] },
+    "🎤 擂主周：先在「🎤 擂主」页练熟话术 9 句；「📖 讲解」看懂 A1，口语页跟读 A1（APEC 第 1–15 题）", "🎤 「📖 讲解」看懂 A2，口语页跟读 A2（APEC 第 16–30 题）；擂主演练 2 轮",
+    "🎤 「📖 讲解」看懂 B，口语页跟读 B（外交与礼仪第 31–45 题）；擂主演练 2 轮", "🎤 「📖 讲解」看懂 C、E，口语页跟读（世界地理 ＋ 历史文化，第 46–58、69–74 题）；擂主演练 2 轮",
+    "🎤 「📖 讲解」看懂 D、F，口语页跟读（科学常识 ＋ 数理生活，第 59–68、75–85 题）；擂主演练 2 轮", "🎤 擂主演练 3–5 轮（选「只抽还没熟的」）；做好 ✔ ✘ 两块举牌，穿上礼服彩排一遍",
+    "🏆 下午当擂主！上午轻松演练一轮：说慢一点、声音大一点、看着人说"] },
   { topic: "Education · Time", grammar: "一般过去时，不规则动词", days: [
     "阅读 ① 告示、② 配对", "听力 ① 看图、② 填笔记", "写作 ⑥ 邮件：3 个问题都要答到",
     "阅读 ④⑤ 填空 ＋ 语法：一般过去时", "口语第 1 部分：介绍自己", "阅读 ①–⑤，限时 40 分钟", "休息"] },
@@ -822,7 +825,7 @@ const P1 = [
     tell: ["Please tell me something about Spring Festival.", "At Spring Festival, my whole family has a big dinner together. We eat dumplings and fish. Children get red envelopes, and we watch fireworks at night."] },
   // 比赛的趣味闯关（85 题，照比赛方题库原文；不是 KET 考点，不进「完整模拟」和「随机一题」）。参考答案改成完整句子，中文里附题库原答案
   { key: "dipA1", zh: "⭐ 闯关 A1 · APEC（第 1–15 题）", en: "", contest: true,
-    tip: "闯关：用一句完整的话回答，要说出题库答案里的关键词。比赛规则是连续答对 3 题算通关。",
+    tip: "擂主练习：先听一遍标准读法，再自己慢一点、大声读出题目（可以录音）；看答案，记住答案是什么，现场要靠你判断对错。",
     qs: [
       ["What does APEC stand for?", "APEC stands for Asia-Pacific Economic Cooperation.", "问：APEC 的英文全称是什么？\n答：亚太经济合作组织（亚太经合组织）。\n题库答案：Asia-Pacific Economic Cooperation"],
       ["How many member economies does APEC have?", "APEC has twenty-one member economies.", "问：APEC 有多少个成员经济体？\n答：21 个。\n题库答案：21"],
@@ -840,7 +843,7 @@ const P1 = [
       ["Which technology helped foreign tourists buy Suzhou plum blossom cake easily?", "It was Alipay+ cross-border payment technology.", "问：什么技术帮助外国游客便捷购买苏州梅花糕？\n答：Alipay+跨境支付技术。\n题库答案：Alipay+ cross-border payment technology"],
       ["Which cities host APEC 2026 events besides Shenzhen?", "Shanghai, Suzhou, Guangzhou and others host events too. The Economic Leaders' Meeting is in Shenzhen.", "问：2026 年 APEC 系列会议除深圳外还在哪些城市举办？\n答：上海、苏州、广州等；领导人会议在深圳。\n题库答案：Shanghai, Suzhou, Guangzhou and others; the Economic Leaders' Meeting is in Shenzhen."] ] },
   { key: "dipA2", zh: "⭐ 闯关 A2 · APEC（第 16–30 题）", en: "", contest: true,
-    tip: "闯关：用一句完整的话回答，要说出题库答案里的关键词。比赛规则是连续答对 3 题算通关。",
+    tip: "擂主练习：先听一遍标准读法，再自己慢一点、大声读出题目（可以录音）；看答案，记住答案是什么，现场要靠你判断对错。",
     qs: [
       ["What does PPFS stand for in APEC?", "PPFS stands for Policy Partnership on Food Security.", "问：APEC 中的 PPFS 全称是什么？\n答：粮食安全政策伙伴关系。\n题库答案：Policy Partnership on Food Security."],
       ["What is the role of APEC's Anti-Corruption Working Group?", "It promotes fair and transparent business and fights corruption.", "问：APEC 反贪腐工作组的职责是什么？\n答：促进公平透明的商业环境，打击腐败。\n题库答案：To promote fair and transparent business and fight corruption."],
@@ -858,7 +861,7 @@ const P1 = [
       ["What is a \"Working Group\" in APEC?", "A working group is a small team that works on specific topics like health or security.", "问：APEC 中的“工作组”是什么？\n答：针对健康、安全等具体议题开展工作的小组\n题库答案：A small team that works on specific topics like health or security."],
       ["The \"Ministerial Meeting\" is higher than the \"Officials' Meeting\". What is the topmost level of meeting called?", "The topmost level is the Economic Leaders' Meeting.", "问：部长级会议高于高官会，那么最高级别的会议叫什么？\n答：经济领导人会议\n题库答案：The Economic Leaders' Meeting"] ] },
   { key: "dipB", zh: "⭐ 闯关 B · 外交与礼仪（第 31–45 题）", en: "", contest: true,
-    tip: "闯关：用一句完整的话回答，要说出题库答案里的关键词。比赛规则是连续答对 3 题算通关。",
+    tip: "擂主练习：先听一遍标准读法，再自己慢一点、大声读出题目（可以录音）；看答案，记住答案是什么，现场要靠你判断对错。",
     qs: [
       ["What are diplomatic relations?", "Diplomatic relations are relations that sovereign countries build and keep through diplomatic activities.", "问：什么是外交关系？\n答：主权国家之间通过外交活动建立和维护的关系。\n题库答案：Relations established between sovereign countries through diplomatic activities"],
       ["How many countries and regions are there in the world?", "There is no globally agreed fixed number. The UN has 193 member states, plus some observer states and other regions.", "问：世界上有多少个国家和地区？\n答：没有全球统一固定数字；联合国有 193 个会员国，另有部分观察员国及其他地区。\n题库答案：There is no globally agreed fixed number. There are 193 member states in the UN, plus some observer states and other regions."],
@@ -876,7 +879,7 @@ const P1 = [
       ["What etiquette should we pay attention to when receiving foreign guests?", "We should follow the principle of “guest first”: pay attention to welcome and farewell etiquette, meetings and banquets, and understand the guests' background and preferences.", "问：在接待外宾时，我们应该注意哪些礼仪？\n答：我们应该注意迎送礼节、会谈和宴请等方面，了解外宾的背景和喜好，安排合适的会谈场所和餐饮，并遵循主宾优先的原则。\n题库答案：We should pay attention to welcome and farewell etiquette, meetings and banquets, understand the background and preferences of foreign guests, arrange appropriate venues and meals, and follow the principle of “guest first”."],
       ["Please describe the international flag-raising etiquette.", "Stand at attention, take off your hat and watch the flag respectfully. Military personnel should salute.", "问：请说出国际升旗礼仪。\n答：立正，脱帽，行注目礼。军人应当行军礼。\n题库答案：Stand at attention, take off your hat and watch the flag respectfully. Military personnel should salute."] ] },
   { key: "dipC", zh: "⭐ 闯关 C · 世界地理（第 46–58 题）", en: "", contest: true,
-    tip: "闯关：用一句完整的话回答，要说出题库答案里的关键词。比赛规则是连续答对 3 题算通关。",
+    tip: "擂主练习：先听一遍标准读法，再自己慢一点、大声读出题目（可以录音）；看答案，记住答案是什么，现场要靠你判断对错。",
     qs: [
       ["Which ancient civilization built the pyramids?", "The ancient Egyptians built the pyramids.", "问：金字塔是由哪个古代文明建造的？\n答：古埃及人。\n题库答案：The Egyptians"],
       ["In which country is the Eiffel Tower located?", "The Eiffel Tower is in France.", "问：埃菲尔铁塔位于哪个国家？\n答：法国。\n题库答案：France"],
@@ -892,7 +895,7 @@ const P1 = [
       ["Which country is the biggest producer of coffee?", "Brazil is the biggest producer of coffee.", "问：世界上最大的咖啡生产国是哪个？\n答：巴西。\n题库答案：Brazil"],
       ["Which is the most populous country in the world?", "India is the most populous country in the world.", "问：世界上人口最多的国家是哪个？\n答：印度。\n题库答案：India"] ] },
   { key: "dipD", zh: "⭐ 闯关 D · 科学常识（第 59–68 题）", en: "", contest: true,
-    tip: "闯关：用一句完整的话回答，要说出题库答案里的关键词。比赛规则是连续答对 3 题算通关。",
+    tip: "擂主练习：先听一遍标准读法，再自己慢一点、大声读出题目（可以录音）；看答案，记住答案是什么，现场要靠你判断对错。",
     qs: [
       ["Which planet is known as the Red Planet?", "Mars is known as the Red Planet.", "问：哪颗行星被称为“红色星球”？\n答：火星。\n题库答案：Mars"],
       ["Which planet is the hottest in the solar system?", "Venus is the hottest planet. Its thick atmosphere traps heat.", "问：太阳系中最热的行星是哪颗？\n答：金星。它厚厚的大气层锁住热量，让它成为最热的行星。\n题库答案：Venus. Its thick atmosphere traps heat, making it the hottest planet."],
@@ -905,7 +908,7 @@ const P1 = [
       ["Which vitamin do we get from the sun?", "We get Vitamin D from the sun.", "问：我们从阳光中获取哪种维生素？\n答：维生素 D。\n题库答案：Vitamin D\n（注释：Human bodies produce Vitamin D when skin is exposed to sunlight, rather than getting it directly from sunlight.）"],
       ["What are the three states of matter?", "The three states of matter are solid, liquid and gas.", "问：物质的三态是什么？\n答：固态、液态和气态。\n题库答案：Solid, liquid and gas"] ] },
   { key: "dipE", zh: "⭐ 闯关 E · 历史文化（第 69–74 题）", en: "", contest: true,
-    tip: "闯关：用一句完整的话回答，要说出题库答案里的关键词。比赛规则是连续答对 3 题算通关。",
+    tip: "擂主练习：先听一遍标准读法，再自己慢一点、大声读出题目（可以录音）；看答案，记住答案是什么，现场要靠你判断对错。",
     qs: [
       ["Who painted the Mona Lisa?", "Leonardo da Vinci painted the Mona Lisa.", "问：《蒙娜丽莎》是谁画的？\n答：列奥纳多·达·芬奇。\n题库答案：Leonardo da Vinci"],
       ["How many Harry Potter books are there?", "There are seven Harry Potter books.", "问：《哈利·波特》系列共有多少本？\n答：7 本。\n题库答案：Seven"],
@@ -914,7 +917,7 @@ const P1 = [
       ["Who is considered the founder of the modern Olympic Games?", "Pierre de Coubertin is considered the founder of the modern Olympic Games.", "问：谁被称为现代奥林匹克运动之父？\n答：皮埃尔·德·顾拜旦。\n题库答案：Pierre de Coubertin"],
       ["Which country is Beethoven from?", "Beethoven is from Germany.", "问：贝多芬是哪国人？\n答：德国。\n题库答案：Germany"] ] },
   { key: "dipF", zh: "⭐ 闯关 F · 数理生活（第 75–85 题）", en: "", contest: true,
-    tip: "闯关：用一句完整的话回答，要说出题库答案里的关键词。比赛规则是连续答对 3 题算通关。",
+    tip: "擂主练习：先听一遍标准读法，再自己慢一点、大声读出题目（可以录音）；看答案，记住答案是什么，现场要靠你判断对错。",
     qs: [
       ["How many planets are there in the solar system?", "There are eight planets in the solar system.", "问：太阳系有多少颗行星？\n答：8 颗。\n题库答案：Eight"],
       ["What do you say when someone else sneezes?", "We say “Bless you!”", "问：别人打喷嚏时你该说什么？\n答：保佑你！祝你健康！\n题库答案：Bless you!"],
@@ -1320,7 +1323,11 @@ function renderSub() {
 }
 const jumpBtn = (label, tab) => `<button class="small" data-go="${tab}">${label}</button>`;
 function jumpFor(task) {
-  if (/讲解/.test(task)) return jumpBtn("去看讲解", "learn") + " " + jumpBtn("去练口语", "speak");
+  const jb = [];
+  if (/讲解/.test(task)) jb.push(jumpBtn("去看讲解", "learn"));
+  if (/擂主/.test(task)) jb.push(jumpBtn("去练擂主", "host"));
+  if (/口语/.test(task)) jb.push(jumpBtn("去练口语", "speak"));
+  if (jb.length) return jb.join(" ");
   if (/口语/.test(task)) return jumpBtn("去练口语", "speak");
   if (/写作|作文/.test(task)) return jumpBtn("去写作", "write");
   if (/听力/.test(task)) return jumpBtn("加练拼写和数字", "listen");
@@ -1518,7 +1525,7 @@ function wireWords(el) {
 }
 
 // ===== 口语 =====
-const sv = { mode: "p1", topic: 1, qi: 0, ref: false, text: false, p2: 0, mock: null, dip: null, dipOnly: false };
+const sv = { mode: "p1", topic: 1, qi: 0, ref: false, text: false, p2: 0, mock: null };
 // 比赛周（10/26–10/30）：打开口语页，默认停在当天要练的闯关话题
 const DIP_DAY = { "2026-10-26": "dipA1", "2026-10-27": "dipA2", "2026-10-28": "dipB", "2026-10-29": "dipC", "2026-10-30": "dipD" };
 { const i = P1.findIndex(t => t.key === DIP_DAY[todayKey()]); if (i >= 0) sv.topic = i; }
@@ -1526,11 +1533,11 @@ const rateTag = r => r ? `<span class="tag r${r}">${["", "还不熟", "还行", 
 RENDER.speak = function () {
   renderSub();
   const el = $("#speak");
-  let h = `<div class="seg"><button data-m="p1" class="${sv.mode === "p1" ? "on" : ""}">① 考官问我</button><button data-m="p2" class="${sv.mode === "p2" ? "on" : ""}">② 看图聊</button><button data-m="mock" class="${sv.mode === "mock" ? "on" : ""}">完整模拟</button><button data-m="dip" class="${sv.mode === "dip" ? "on" : ""}">🎯 闯关</button></div>`;
-  h += sv.mode === "p1" ? p1View() : sv.mode === "p2" ? p2View() : sv.mode === "dip" ? dipView() : mockView();
+  let h = `<div class="seg"><button data-m="p1" class="${sv.mode === "p1" ? "on" : ""}">① 考官问我</button><button data-m="p2" class="${sv.mode === "p2" ? "on" : ""}">② 看图聊</button><button data-m="mock" class="${sv.mode === "mock" ? "on" : ""}">完整模拟</button></div>`;
+  h += sv.mode === "p1" ? p1View() : sv.mode === "p2" ? p2View() : mockView();
   el.innerHTML = h;
   $$(".seg button", el).forEach(b => b.onclick = () => { cleanup(); sv.mode = b.dataset.m; sv.ref = false; sv.text = false; RENDER.speak(); });
-  if (sv.mode === "p1") wireP1(el); else if (sv.mode === "p2") wireP2(el); else if (sv.mode === "dip") wireDip(el); else wireMock(el);
+  if (sv.mode === "p1") wireP1(el); else if (sv.mode === "p2") wireP2(el); else wireMock(el);
 };
 // ===== 📖 讲解页数据：每题的通俗中文，和每组题的生词小词典 =====
 const LEARN = {
@@ -1741,81 +1748,155 @@ RENDER.learn = function () {
   $("#lAll", el).onclick = () => { playTok++; speakQueue(t.qs.flatMap(([q, full]) => [q, full])); };
   $("#lStop", el).onclick = () => stopSpeech();
 };
-// ===== 🎯 趣味闯关模拟：连续答对 3 题算通关，答错可用一次复活 =====
-const dipPool = weakOnly => P1.filter(t => t.contest).flatMap(t => t.qs.map(([q, a, zh], j) => ({ qid: `${t.key}-${j}`, q, a, zh, from: t.zh })))
-  .filter(x => !weakOnly || (SP[x.qid] || 0) < 3);
-function dipDraw(weakOnly) {
-  let pool = dipPool(weakOnly), note = "";
-  if (pool.length < 3) { pool = dipPool(false); note = "还没熟的题不够 3 道，这次从全部题里抽。"; }
+// ===== 🎤 擂主：话术 9 句，和照流程图演练（你当擂主，家长当挑战者）=====
+const HOST = [
+  { n: "01", zh: "开场", en: "OPENING", lines: [["Hello! Welcome to Trivia Challenge. I'm Guardian {name}.", "欢迎来到知识挑战赛，我是今天的擂主。"]], act: "站直、微笑、声音洪亮，先看挑战者再开口。" },
+  { n: "02", zh: "问语言", en: "CHOOSE THE LANGUAGE", lines: [["Would you like to play in Chinese or in English?", "你想用中文还是英文来挑战？"], ["Great! Let's start.", "（挑战者选完以后说）好的，我们开始。"]], act: "等挑战者选完语言，再出题。" },
+  { n: "03", zh: "报题", en: "ASK THE QUESTION", lines: [["Here is your first question.", "这是你的第一题。"], ["Here is your second question.", "这是你的第二题。"], ["Here is your last question.", "这是你的最后一题。"]], act: "每题只读一遍，读完停 1 秒再开始计时。" },
+  { n: "04", zh: "计时 10 秒", en: "10 SECONDS", lines: [["You have 10 seconds.", "你有 10 秒思考。"], ["Time's up!", "（超时）时间到！"]], act: "心里默数 10 秒，最后 5 秒可以轻声倒数 5-4-3-2-1。超时按答错处理，进入「复活询问」。" },
+  { n: "05", zh: "答对 ✔", en: "CORRECT", lines: [["That's right!", "答对了！"], ["That's correct!", "完全正确！"], ["Bingo!", "答中啦！"], ["Great!", "太棒了！"], ["You got it!", "就是这样！"]], act: "同时举起 ✔ 正确牌，让大家都看到结果。" },
+  { n: "06", zh: "答错 ✘", en: "WRONG", lines: [["Sorry, that's wrong. Do you want to revive and restart?", "对不起，答错了。你想使用复活机会吗？"]], act: "举起 ✘ 错误牌，语气温和，不评价挑战者。" },
+  { n: "07", zh: "复活", en: "REVIVE", lines: [["Great! Let's restart from question one. Three questions again.", "（要复活）好！我们从第一题重新开始，还是三题。"], ["That's OK! Good luck at the game!", "（不复活）没关系！祝你在比赛里好运！"]], act: "注意：复活后重新答 3 题，再答错就结束（复活机会只用一次）。" },
+  { n: "08", zh: "通过", en: "PASS", lines: [["Congrats! Now you can go spin the lucky wheel!", "恭喜你，挑战成功！现在可以去转盘抽奖啦！"]], act: "带头鼓掌，伸手示意转盘方向，把挑战者交给转盘区。" },
+  { n: "09", zh: "失败", en: "FAIL", lines: [["That's OK! Good luck at the game!", "没关系！祝你在比赛里好运！"], ["Have a nice day.", "很遗憾，谢谢勇敢的你！"]], act: "微笑鼓掌送别，请下一位挑战者上场。" }
+];
+const HOST_RULES = [
+  ["10 秒规则", "读完题目开始计时，超时按答错处理，进入复活询问。"],
+  ["复活只有一次", "复活后从第 1 题重新开始，共 3 题，再答错即挑战结束。"],
+  ["举牌为准", "答对举 ✔，答错举 ✘；先举牌，再说话。"],
+  ["三题全对", "通过挑战，去转盘抽奖，并由擂主带头鼓掌。"]
+];
+const HOST_TIPS = ["说慢一点", "看着人说", "声音要大", "举牌为准", "只鼓励，不评价"];
+const hs = { mode: "script", name: store.get("hname", ""), only: false, g: null };
+const hDisp = t => t.replace(/\{name\}/g, hs.name || "______");
+const hSay = t => t.replace(/ \{name\}/g, hs.name ? " " + hs.name : "");
+const hLines = lines => lines.map(([en, zh]) => `<p class="enans">${esc(hDisp(en))} <button class="small" data-say="${esc(en)}">🔊</button></p><p class="hint" style="margin-top:0">${esc(zh)}</p>`).join("");
+const hSayBlock = (lines, act) => `<div class="ref"><h4>你现在说</h4>${hLines(lines)}${act ? `<h4>动作</h4><p>${esc(act)}</p>` : ""}</div>`;
+const hostPool = only => P1.filter(t => t.contest).flatMap(t => t.qs.map(([q, full, zh], j) => {
+  const L = LEARN[t.key].items[j], mq = /^问：(.*)$/m.exec(zh || ""), ma = /^答：(.*)$/m.exec(zh || "");
+  return { qid: `${t.key}-${j}`, n: LEARN[t.key].n0 + j, qen: q, qzh: mq ? mq[1] : "", azh: ma ? ma[1] : "", full, bank: L[0], ans: L[2] };
+})).filter(x => !only || (SP[x.qid] || 0) < 3);
+function hostDraw() {
+  let pool = hostPool(hs.only), note = "";
+  if (pool.length < 3) { pool = hostPool(false); note = "还没熟的题不够 3 道，这次从全部题里抽。"; }
   for (let i = pool.length - 1; i > 0; i--) { const k = Math.floor(Math.random() * (i + 1)); [pool[i], pool[k]] = [pool[k], pool[i]]; }
   return { qs: pool.slice(0, 3), note };
 }
-function dipStart() {
-  const r = dipDraw(sv.dipOnly);
-  sv.dip = { qs: r.qs, i: 0, revive: 1, state: "play", show: false, missed: [], msg: r.note };
-  sv.text = false;
+function hostNew() {
+  const r = hostDraw();
+  hs.g = { qs: r.qs, i: 0, revive: 1, step: "open", lang: "en", show: false, timeout: false, praise: 0, missed: [], t: 10, note: r.note };
 }
-function dipView() {
-  const d = sv.dip;
-  if (!d) {
-    const all = dipPool(false).length, weak = dipPool(true).length;
-    return `<div class="card"><div class="big">🎯 趣味闯关模拟</div>
-      <p>像比赛现场一样：主播连续问 3 个问题，<b>连续答对 3 题算通关</b>。每次挑战只有一次机会，中途答错可以用一次「复活机会」，重新连续答 3 题。</p>
-      <p class="hint">爸爸或妈妈当主播：听完题大声回答，再点「看答案」对一对，由主播点 ✓ 或 ✗。题库共 ${all} 题，还没熟的 ${weak} 题。</p>
-      <div class="row"><label><input type="radio" name="dScope" value="all" ${sv.dipOnly ? "" : "checked"}> 全部题</label>
-      <label><input type="radio" name="dScope" value="weak" ${sv.dipOnly ? "checked" : ""}> 只抽还没熟的</label></div>
-      <div class="row"><button class="primary" id="dStart">开始挑战</button></div></div>`;
+function hostScriptView() {
+  return `<div class="card"><div class="big">🎤 擂主话术</div>
+    <p class="hint">你是趣味闯关的擂主：挑战者来答题，你负责问好、出题、计时、判对错。一共 9 句话，照着说就行。点 🔊 听标准读法，再自己大声说一遍。</p>
+    <p class="hint">着装：正式礼服，比如学校礼服（整洁得体）。</p>
+    <label class="lbl" for="hName">我的英文名（用来读第 1 句，只存在这台设备上）</label>
+    <input id="hName" type="text" maxlength="20" placeholder="比如 Amy" value="${esc(hs.name)}"></div>
+    ${HOST.map(h => `<div class="card"><div class="meta"><span><b>${h.n}</b> ${esc(h.zh)}</span><span class="tag">${esc(h.en)}</span></div>
+      ${hLines(h.lines)}<p class="hint">动作：${esc(h.act)}</p></div>`).join("")}
+    <div class="card"><h4 style="margin:0 0 6px">规则</h4>${HOST_RULES.map(([a, b]) => `<p style="margin:6px 0"><b>${esc(a)}</b>：${esc(b)}</p>`).join("")}
+      <h4 style="margin:12px 0 6px">五个小要点</h4><p>${HOST_TIPS.map((t, i) => `${"①②③④⑤"[i]} ${esc(t)}`).join("　")}</p></div>`;
+}
+function hostPlayView() {
+  const g = hs.g;
+  if (!g) {
+    const all = hostPool(false).length, weak = hostPool(true).length;
+    return `<div class="card"><div class="big">擂主演练</div>
+      <p>照流程图走一遍：<b>你当擂主，爸爸或妈妈当挑战者</b>。每一步页面会告诉你该说什么、做什么动作。三题全对算通关；答错或超时可以复活一次，复活后重新答 3 题，再错就结束。</p>
+      <p class="hint">最好准备两块举牌：✔ 和 ✘，练习时真的举起来。题库共 ${all} 题，还没熟的 ${weak} 题。</p>
+      <div class="row"><label><input type="radio" name="hScope" value="all" ${hs.only ? "" : "checked"}> 全部题</label>
+      <label><input type="radio" name="hScope" value="weak" ${hs.only ? "checked" : ""}> 只抽还没熟的</label></div>
+      <div class="row"><button class="primary" id="hStart">开始演练</button></div></div>`;
   }
-  if (d.state === "clear") return `<div class="card" style="text-align:center"><div class="big">🎉 通关啦！</div><p>连续答对了 3 题，太棒了！${d.missed.length ? "" : "而且一题没错 👏"}</p>
-    <div class="row"><button class="primary" id="dAgain">再挑战一次</button><button data-a="dquit">返回</button></div></div>`;
-  if (d.state === "over") return `<div class="card"><div class="big">这次没通关 💪</div><p>把答错的题再看看，下次一定行：</p>
-    ${d.missed.map(x => `<div class="fu"><div>${esc(x.q)}</div><p class="ans">${esc(x.a)}</p></div>`).join("")}
-    <div class="row" style="margin-top:12px"><button class="primary" id="dAgain">再挑战一次</button><button data-a="dquit">返回</button></div></div>`;
-  const x = d.qs[d.i], hide = settings.listenOnly && !sv.text;
-  return `<div class="card">
-    <div class="meta"><span>闯关 · 第 ${d.i + 1} / 3 题 · 复活机会 ${d.revive} 次</span><span class="tag">${esc(x.from.replace(/^⭐ 闯关 /, ""))}</span></div>
-    ${d.msg ? `<p class="hint">${esc(d.msg)}</p>` : ""}
-    <div class="q ${hide ? "hidden" : ""}">${esc(x.q)}</div>
-    <div class="row"><button data-a="say">🔊 再听一遍</button>${hide ? `<button data-a="text">👀 看题目</button>` : ""}<button data-a="ans">💡 ${d.show ? "收起答案" : "看答案"}</button></div>
-    <div id="dRec"></div>
-    <div class="ref" ${d.show ? "" : "hidden"}><h4>参考答案</h4><p class="ans">${esc(x.a)}</p>${x.zh ? `<p class="hint" style="white-space:pre-line">${esc(x.zh)}</p>` : ""}<button class="small" data-a="sayref">🔊 听参考</button></div>
-    <div class="row rate"><button class="b3" data-a="ok">✓ 答对了</button><button class="b1" data-a="no">✗ 没答对</button></div>
-    <div class="row"><button data-a="dquit">退出</button></div>
-  </div>`;
-}
-function dipAnswer(ok) {
-  const d = sv.dip, x = d.qs[d.i];
-  cleanup(); d.show = false; sv.text = false; d.msg = "";
-  if (ok) {
-    SP[x.qid] = (SP[x.qid] || 0) >= 2 ? 3 : 2; store.set("sp", SP);
-    award(3, "闯关答对", "sp:" + x.qid, "speak");
-    d.i++;
-    if (d.i >= 3) { d.state = "clear"; bump("dip"); award(15, "趣味闯关通关", "dip-clear", "speak"); celebrate("🎉", "闯关成功！", "连续答对 3 题"); }
-  } else {
-    SP[x.qid] = 1; store.set("sp", SP); d.missed.push(x);
-    if (d.revive > 0) { const r = dipDraw(sv.dipOnly); d.revive--; d.qs = r.qs; d.i = 0; d.msg = "答错啦，用掉一次复活机会，重新连续答 3 题。"; }
-    else d.state = "over";
+  const x = g.qs[g.i], q = g.lang === "zh" ? x.qzh : x.qen;
+  const head = label => `<div class="meta"><span>擂主演练 · ${label}</span><span class="tag">复活机会 ${g.revive} 次</span></div>${g.note ? `<p class="hint">${esc(g.note)}</p>` : ""}`;
+  const quit = `<button data-h="quit">退出演练</button>`;
+  const qBlock = `<div class="q">${esc(q)}${g.lang === "en" ? ` <button class="small" data-say="${esc(x.qen)}">🔊</button>` : ""}</div>
+    <div class="row"><button data-h="show">💡 ${g.show ? "收起答案" : "看答案（只给擂主看）"}</button></div>
+    <div class="ref" id="hAns" ${g.show ? "" : "hidden"}><h4>答案</h4><p class="ans">${esc(g.lang === "zh" ? x.azh : x.bank)}</p><p class="hint">${esc(g.lang === "zh" ? x.bank : x.azh)}</p><p class="hint">${esc(x.ans)}</p></div>`;
+  const review = () => g.missed.length ? `<div class="card"><h4 style="margin:0 0 6px">答错的题，再看看</h4>${g.missed.map(m => `<div class="fu"><div>${esc(m.qen)}</div><p class="ans">${esc(m.bank)}</p></div>`).join("")}</div>` : "";
+  switch (g.step) {
+    case "open":
+      return `<div class="card">${head("开场")}${hSayBlock(HOST[0].lines, HOST[0].act)}<div class="row"><button class="primary" data-h="to-lang">说完了，下一步 →</button>${quit}</div></div>`;
+    case "lang":
+      return `<div class="card">${head("问语言")}${hSayBlock([HOST[1].lines[0]], HOST[1].act)}<div class="row"><button class="primary" data-h="lang-en">挑战者选了 English</button><button class="primary" data-h="lang-zh">挑战者选了 中文</button></div><div class="row">${quit}</div></div>`;
+    case "go":
+      return `<div class="card">${head("开始")}${hSayBlock([HOST[1].lines[1]])}<div class="row"><button class="primary" data-h="to-ask">出第 1 题 →</button>${quit}</div></div>`;
+    case "ask":
+      return `<div class="card">${head(`第 ${g.i + 1} / 3 题`)}${hSayBlock([HOST[2].lines[g.i]], HOST[2].act)}<p class="hint">然后大声读出题目${g.lang === "zh" ? "（挑战者选了中文，读中文）" : ""}：</p>${qBlock}
+        <div class="row"><button class="primary" data-h="timer">读完了，开始 10 秒计时 ⏱</button>${quit}</div></div>`;
+    case "timer":
+      return `<div class="card">${head(`第 ${g.i + 1} / 3 题 · 计时`)}${hSayBlock([HOST[3].lines[0]], "心里默数；最后 5 秒可以轻声倒数。")}
+        <div class="big" id="hCd" style="font-size:56px;text-align:center">${g.t}</div>${qBlock}
+        <div class="row rate"><button class="b3" data-h="ok">✔ 答对了（先举 ✔ 牌）</button><button class="b1" data-h="no">✘ 答错了（先举 ✘ 牌）</button></div></div>`;
+    case "right":
+      return `<div class="card">${head("答对 ✔")}${hSayBlock([HOST[4].lines[g.praise]], HOST[4].act)}<div class="row"><button class="primary" data-h="next">${g.i >= 2 ? "三题全对 → 通过" : "下一题 →"}</button>${quit}</div></div>`;
+    case "wrong": {
+      const lines = [...(g.timeout ? [HOST[3].lines[1]] : []), ...(g.revive > 0 ? HOST[5].lines : [["Sorry, that's wrong.", "对不起，答错了。"]])];
+      return `<div class="card">${head("答错 ✘")}${hSayBlock(lines, HOST[5].act)}<p class="hint">这题的答案：<b>${esc(g.lang === "zh" ? x.azh : x.bank)}</b></p>
+        <div class="row">${g.revive > 0 ? `<button class="primary" data-h="revive-yes">挑战者要复活</button><button data-h="revive-no">挑战者不要复活</button>` : `<button class="primary" data-h="end">挑战结束 →</button>`}</div><div class="row">${quit}</div></div>`;
+    }
+    case "revive":
+      return `<div class="card">${head("复活")}${hSayBlock([HOST[6].lines[0]], HOST[6].act)}<div class="row"><button class="primary" data-h="revive-go">出第 1 题 →</button>${quit}</div></div>`;
+    case "pass":
+      return `<div class="card">${head("通过 🎉")}${hSayBlock(HOST[7].lines, HOST[7].act)}<div class="row"><button class="primary" data-h="again">再演练一次</button>${quit}</div></div>${review()}`;
+    default:
+      return `<div class="card">${head("挑战结束")}${hSayBlock(HOST[8].lines, HOST[8].act)}<div class="row"><button class="primary" data-h="again">再演练一次</button>${quit}</div></div>${review()}`;
   }
 }
-function wireDip(el) {
-  const st = $("#dStart", el);
-  if (st) st.onclick = () => { sv.dipOnly = ($('input[name="dScope"]:checked', el) || {}).value === "weak"; dipStart(); RENDER.speak(); };
-  const d = sv.dip; if (!d) return;
-  const again = $("#dAgain", el); if (again) again.onclick = () => { dipStart(); RENDER.speak(); };
-  if (d.state !== "play") { $$("[data-a=dquit]", el).forEach(b => b.onclick = () => { sv.dip = null; RENDER.speak(); }); return; }
-  const x = d.qs[d.i];
-  recWidget($("#dRec", el), () => award(2, "闯关录音", "rec:" + x.qid, "speak"));
-  $$("[data-a]", el).forEach(b => b.onclick = () => {
-    const a = b.dataset.a;
-    if (a === "say") speak(x.q);
-    else if (a === "text") { sv.text = true; RENDER.speak(); }
-    else if (a === "ans") { d.show = !d.show; $(".ref", el).hidden = !d.show; b.textContent = d.show ? "💡 收起答案" : "💡 看答案"; }
-    else if (a === "sayref") speak(x.a);
-    else if (a === "dquit") { cleanup(); sv.dip = null; RENDER.speak(); }
-    else if (a === "ok" || a === "no") { dipAnswer(a === "ok"); RENDER.speak(); }
+function hostJudge(ok, timeout) {
+  const g = hs.g, x = g.qs[g.i]; g.show = false;
+  award(3, "擂主读题", "host:" + x.qid, "speak");
+  if (ok) { g.praise = Math.floor(Math.random() * HOST[4].lines.length); g.step = "right"; }
+  else { g.missed.push(x); g.timeout = !!timeout; g.step = "wrong"; }
+}
+function hostTimer() {
+  const g = hs.g;
+  clearInterval(tickIv);
+  tickIv = setInterval(() => {
+    g.t--;
+    const c = $("#hCd"); if (c) { c.textContent = g.t; c.style.color = g.t <= 5 ? "var(--bad)" : ""; }
+    if (g.t <= 0) { clearInterval(tickIv); hostJudge(false, true); RENDER.host(); }
+  }, 1000);
+}
+function hostFinish(pass) {
+  hs.g.step = pass ? "pass" : "fail";
+  if (pass) { award(15, "擂主演练通关", "host-pass", "speak"); celebrate("🎤", "演练通关！", "三题全对，擂主当得真棒"); }
+  else award(5, "擂主演练一轮", "host-run", "speak");
+}
+function wireHost(el) {
+  $$(".seg button", el).forEach(b => b.onclick = () => { cleanup(); hs.mode = b.dataset.m; RENDER.host(); });
+  $$("[data-say]", el).forEach(b => b.onclick = () => speak(hSay(b.dataset.say)));
+  const nm = $("#hName", el); if (nm) nm.oninput = e => { hs.name = e.target.value.trim(); store.set("hname", hs.name); };
+  const st = $("#hStart", el);
+  if (st) st.onclick = () => { hs.only = ($('input[name="hScope"]:checked', el) || {}).value === "weak"; hostNew(); RENDER.host(); };
+  const g = hs.g; if (hs.mode !== "play" || !g) return;
+  if (g.step === "timer") hostTimer();
+  $$("[data-h]", el).forEach(b => b.onclick = () => {
+    const a = b.dataset.h;
+    if (a === "show") { g.show = !g.show; $("#hAns", el).hidden = !g.show; b.textContent = g.show ? "💡 收起答案" : "💡 看答案（只给擂主看）"; return; }
+    cleanup();
+    if (a === "quit") hs.g = null;
+    else if (a === "to-lang") g.step = "lang";
+    else if (a === "lang-en" || a === "lang-zh") { g.lang = a === "lang-en" ? "en" : "zh"; g.step = "go"; }
+    else if (a === "to-ask") g.step = "ask";
+    else if (a === "timer") { g.t = 10; g.step = "timer"; }
+    else if (a === "ok") hostJudge(true);
+    else if (a === "no") hostJudge(false);
+    else if (a === "next") { if (g.i >= 2) hostFinish(true); else { g.i++; g.show = false; g.step = "ask"; } }
+    else if (a === "revive-yes") g.step = "revive";
+    else if (a === "revive-no" || a === "end") hostFinish(false);
+    else if (a === "revive-go") { const r = hostDraw(); g.revive--; g.qs = r.qs; g.note = r.note; g.i = 0; g.show = false; g.step = "ask"; }
+    else if (a === "again") hostNew();
+    RENDER.host();
   });
-  speak(x.q);
 }
+RENDER.host = function () {
+  renderSub();
+  const el = $("#host");
+  el.innerHTML = `<div class="seg"><button data-m="script" class="${hs.mode === "script" ? "on" : ""}">话术 9 句</button><button data-m="play" class="${hs.mode === "play" ? "on" : ""}">擂主演练</button></div>` + (hs.mode === "script" ? hostScriptView() : hostPlayView());
+  wireHost(el);
+};
 function p1View() {
   const t = P1[sv.topic], list = qsOf(t), [q, a, zh] = list[sv.qi], qid = `${t.key}-${sv.qi}`;
   const isTell = !!t.tell && sv.qi === list.length - 1, hide = settings.listenOnly && !sv.text;
