@@ -204,6 +204,7 @@ header { display: flex; justify-content: space-between; align-items: flex-start;
   <button data-tab="speak">口语</button>
   <button data-tab="learn">📖 讲解</button>
   <button data-tab="host">🎤 擂主</button>
+  <button data-tab="speech">🗣️ 演讲</button>
   <button data-tab="listen">听力</button>
   <button data-tab="write">写作</button>
   <button data-tab="reward">奖励</button>
@@ -213,6 +214,7 @@ header { display: flex; justify-content: space-between; align-items: flex-start;
 <section id="speak" hidden></section>
 <section id="learn" hidden></section>
 <section id="host" hidden></section>
+<section id="speech" hidden></section>
 <section id="listen" hidden></section>
 <section id="write" hidden></section>
 <section id="reward" hidden></section>
@@ -1338,6 +1340,7 @@ function jumpFor(task) {
   const jb = [];
   if (/讲解/.test(task)) jb.push(jumpBtn("去看讲解", "learn"));
   if (/擂主/.test(task)) jb.push(jumpBtn("去练擂主", "host"));
+  if (/演讲/.test(task)) jb.push(jumpBtn("去练演讲", "speech"));
   if (/口语/.test(task)) jb.push(jumpBtn("去练口语", "speak"));
   if (jb.length) return jb.join(" ");
   if (/口语/.test(task)) return jumpBtn("去练口语", "speak");
@@ -1346,6 +1349,117 @@ function jumpFor(task) {
   return "";
 }
 function wireGo(root) { $$("[data-go]", root).forEach(b => b.onclick = () => showTab(b.dataset.go)); }
+
+// ===== 演讲（通用主题：向世界推介深圳 · 春笋）=====
+const SPEECH_TITLE = "Come and See the Bamboo Shoot Grow";
+const SPEECH = [
+  { t: "开场", cn: "问好，引出竹笋楼", act: "微笑，环视全场", sents: [
+    "Good afternoon, dear judges and friends!",
+    "My name is ______.",
+    "Today, I want to show you my city, Shenzhen — and I will start with a giant bamboo shoot."] },
+  { t: "春笋", cn: "深圳湾近 400 米的高楼，妈妈就在里面上班；今年夏天我在那里研学了一整天", act: "双手比出高楼；说 My mom works inside it 时自豪地指向远方", sents: [
+    "Yes, a bamboo shoot!",
+    "By Shenzhen Bay stands a shining silver tower, almost four hundred meters tall.",
+    "Its real name is the China Resources Tower, but we all call it Chunsun — the Spring Bamboo Shoot.",
+    "My mom works inside it!",
+    "This summer, I spent a whole day there, and I met three wonderful things."] },
+  { t: "遇见机器人（快）", cn: "机器人迎接我们；摄像头是眼睛、传感器是耳朵、小电脑是大脑；还试了 3D 打印", act: "学机器人挥手；fast 一词说得干脆有力", sents: [
+    "First, I met a robot.",
+    "At the door, a real robot waved to welcome us.",
+    "I learned what is inside a robot's body: cameras are its eyes, sensors are its ears, and a little computer is its brain.",
+    "I even tried 3D printing!",
+    "In Shenzhen, an idea becomes a product — fast."] },
+  { t: "遇见艺术（远）", cn: "在木织机上学编织；楼上美术馆挂着几百年前法国宫廷的大壁毯", act: "双手做织布动作；最后一句放慢，举起带来的画", sents: [
+    "Next, I met art from far away.",
+    "In a workshop, I learned to weave on a small wooden loom.",
+    "Line by line — my arms got so tired!",
+    "Then, upstairs in the gallery, I saw huge French tapestries, woven hundreds of years ago for kings' palaces.",
+    "They were hanging quietly — in a tower in my city.",
+    "One small loom, one big world."] },
+  { t: "遇见温暖（暖）", cn: "消防演练戴防烟面罩穿过烟雾，不害怕；午睡时大会议室变成帐篷营地", act: "做戴面罩的动作；说帐篷时语气变甜", sents: [
+    "Last, I met warm hearts.",
+    "We had a fire drill.",
+    "I put on a smoke mask and walked through the smoke, and I was not scared.",
+    "At nap time, the big meeting room turned into a campsite — little tents with fairy lights, just for us kids!",
+    "You see, this busy tower never forgets to care for people."] },
+  { t: "升华", cn: "深圳像竹笋一样生长；它不只是快，还开放、温暖；妈妈帮大楼生长，我也要帮城市生长", act: "节奏放慢、声音渐强；最后一句手按胸口", sents: [
+    "People say Shenzhen grows like a bamboo shoot.",
+    "Less than fifty years ago, it was a quiet little town; now it touches the sky.",
+    "But today I want to tell the world: Shenzhen is not only fast.",
+    "It is open, and it is warm.",
+    "My mom helps this tower grow.",
+    "Maybe one day, I will help this city grow too!"] },
+  { t: "结尾", cn: "今年 APEC 来深圳；欢迎全世界来看春笋生长", act: "张开双臂发出邀请，结尾鞠躬", sents: [
+    "This year, APEC comes to Shenzhen.",
+    "Friends from all over the world — welcome!",
+    "Come to Shenzhen Bay, and watch the bamboo shoot grow.",
+    "Thank you!"] },
+];
+const SPEECH_GOLD = ["One small loom, one big world.", "Shenzhen is not only fast. It is open, and it is warm.", "Come to Shenzhen Bay, and watch the bamboo shoot grow."];
+const SPEECH_WORDS = [
+  ["A", "bamboo shoot", "竹笋"], ["A", "tower", "高楼"], ["A", "Shenzhen Bay", "深圳湾"], ["A", "judge", "评委"],
+  ["A", "robot", "机器人"], ["A", "sensor", "传感器"], ["A", "brain", "大脑"], ["A", "3D printing", "3D 打印"],
+  ["B", "weave", "编织"], ["B", "loom", "织机"], ["B", "tapestry", "壁毯"], ["B", "palace", "宫殿"], ["B", "gallery", "美术馆"],
+  ["C", "fire drill", "消防演练"], ["C", "smoke mask", "防烟面罩"], ["C", "campsite", "营地"], ["C", "fairy lights", "彩灯串"], ["C", "care for", "关心；照顾"],
+];
+// 这两周每天的演讲任务（按日期，显示在「今天」页）
+const SPEECH_DAY = {
+  "2026-10-26": ["5 分钟", "听全文一遍；单词卡 A 组点 🔊 认一认"],
+  "2026-10-27": ["10 分钟", "跟读第 1–2 段；复习单词卡 A 组"],
+  "2026-10-28": ["10 分钟", "跟读第 3 段（机器人）；单词卡 B 组"],
+  "2026-10-29": ["10 分钟", "跟读第 4 段（艺术）；复习单词卡 B 组"],
+  "2026-10-30": ["10 分钟", "跟读第 5–6 段；单词卡 C 组"],
+  "2026-10-31": ["10 分钟", "跟读第 7 段＋三句金句；再听一遍全文"],
+  "2026-11-01": ["晚上", "当完擂主，晚上听一遍演讲全文就好"],
+  "2026-11-02": ["15 分钟", "背第 1–2 段：先跟读，再开「提示卡」自己说"],
+  "2026-11-03": ["15 分钟", "背第 3 段；第 1–3 段连起来说"],
+  "2026-11-04": ["15 分钟", "背第 4 段；复习全部单词卡"],
+  "2026-11-05": ["15 分钟", "背第 5–6 段；三句金句放慢说清楚"],
+  "2026-11-06": ["15 分钟", "背第 7 段；全文连起来说一遍（可以开提示卡）"],
+  "2026-11-07": ["20 分钟", "全文脱稿彩排 2 遍，录音回放；配上动作"],
+  "2026-11-08": ["今天", "演讲日 🏆 上午轻松说一遍；上台声音大、看着人说"],
+};
+let spHint = false;
+const spBlank = s => /_{3,}/.test(s);
+const spHintTxt = s => { const w = s.split(" "); return w.length > 3 ? w.slice(0, 3).join(" ") + " …" : s; };
+RENDER.speech = function () {
+  const el = $("#speech"), sd = SPEECH_DAY[todayKey()];
+  const allSents = SPEECH.flatMap(p => p.sents).filter(s => !spBlank(s));
+  el.innerHTML = `
+  <div class="card">
+    <div class="big">🗣️ ${esc(SPEECH_TITLE)}</div>
+    <p class="hint">向世界推介深圳 · 春笋 ｜ 全文约 350 词 ≈ 2 分 45 秒 ｜ 要求：不超过 3 分钟（超时会喊停）、必须脱稿</p>
+    ${sd ? `<p>📌 今天的演讲任务（${esc(sd[0])}）：${esc(sd[1])}</p>` : ""}
+    <div class="row">
+      <button id="spAll">🎧 听全文</button>
+      <button id="spStop" class="small">⏹ 停</button>
+      <label><input type="checkbox" id="spHintCk" ${spHint ? "checked" : ""}> 提示卡：每句只给开头，自己背出来</label>
+    </div>
+  </div>
+  ${SPEECH.map((p, i) => `<div class="card">
+    <div class="meta"><span>第 ${i + 1} 段 · ${esc(p.t)}</span><button class="small" data-sppara="${i}">🔊 听这段</button></div>
+    ${p.sents.map(s => spBlank(s)
+      ? `<p class="enans">${esc(s)}<span class="hint">（这里说自己的名字）</span></p>`
+      : `<p class="enans">${esc(spHint ? spHintTxt(s) : s)} <button class="small" data-say="${esc(s)}" aria-label="朗读">🔊</button></p>`).join("")}
+    <p class="hint">${esc(p.cn)}｜动作：${esc(p.act)}</p>
+    <div data-sprec="${i}"></div>
+  </div>`).join("")}
+  <div class="card">
+    <div class="meta"><span>三句金句（放慢、说清楚）</span></div>
+    ${SPEECH_GOLD.map(s => `<p class="enans">${esc(s)} <button class="small" data-say="${esc(s)}" aria-label="朗读">🔊</button></p>`).join("")}
+  </div>
+  <div class="card">
+    <div class="meta"><span>演讲单词卡（A 组＝春笋和机器人，B 组＝编织和壁毯，C 组＝消防和营地）</span></div>
+    <table class="list">${SPEECH_WORDS.map(([g, en, zh]) => `<tr><td style="width:44px">${g} 组</td><td style="width:44px"><button class="small" data-say="${esc(en)}" aria-label="朗读">🔊</button></td><td><b>${esc(en)}</b></td><td class="hint">${esc(zh)}</td></tr>`).join("")}</table>
+    <p class="hint">练法：点 🔊 听一遍 → 自己读一遍 → 盖住中文说意思。比赛周配着当天跟读的那段练。</p>
+  </div>`;
+  $("#spAll").onclick = () => { speakQueue(allSents); award(2, "听演讲全文", "sp:listen", "speak"); };
+  $("#spStop").onclick = stopSpeech;
+  $("#spHintCk").onchange = e => { spHint = e.target.checked; RENDER.speech(); };
+  $$("[data-sppara]", el).forEach(b => b.onclick = () => speakQueue(SPEECH[b.dataset.sppara].sents.filter(s => !spBlank(s))));
+  $$("[data-say]", el).forEach(b => b.onclick = () => speak(b.dataset.say));
+  $$("[data-sprec]", el).forEach(d => recWidget(d, () => award(2, "演讲跟读录音", "sp:rec:" + d.dataset.sprec, "speak")));
+};
 
 // ===== 今天 =====
 RENDER.today = function () {
@@ -1367,11 +1481,14 @@ RENDER.today = function () {
     const wk = WEEKS[week - 1], task = wk.days[dow], ph = phase(week), items = [];
     if (dow < 5) items.push(["8 分钟", week <= 10 ? `背单词：${wk.topic}` : "背单词：错词本", jumpBtn("去背单词", "words")]);
     items.push([dow < 5 ? "15 分钟" : dow === 5 ? "做题" : "今天", task, jumpFor(task)]);
+    const sd = SPEECH_DAY[todayKey()];
+    if (sd) items.splice(week === 2 && dow < 5 ? 1 : items.length, 0, [sd[0], "🗣️ 演讲：" + sd[1], jumpBtn("去练演讲", "speech")]);
     if (dow < 5) items.push(["2 分钟", "打卡，错题抄进错题本", ""]);
     h += `<div class="card">
       <div class="meta"><span class="tag ph${ph}">第 ${ph} 阶段</span><span>本周语法：${esc(wk.grammar)}</span></div>
       <div class="big">第 ${week} 周 · 周${WD[dow]}</div>
       <ul class="todo">${items.map(([m, t, b]) => `<li><span class="min">${m}</span><span class="txt">${esc(t)}</span>${b}</li>`).join("")}</ul>
+      ${week === 2 && sd ? `<p class="hint">演讲周以演讲为主：KET 的任务做不完可以先放。</p>` : ""}
       <button class="paw ${done[idx] ? "done" : "primary"}" id="paw">${done[idx] ? "今天打过卡了 🐾（点一下取消）" : "我练完了，打卡 🐾"}</button>
       <div class="praise" id="praise"></div>
     </div>`;
