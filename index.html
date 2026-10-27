@@ -1365,10 +1365,10 @@ const SPEECH = [
     "Its real name is the China Resources Tower.",
     "My mom works inside it!",
     "This August, I joined a one-day camp there, and I discovered a whole new world inside."] },
-  { t: "遇见机器人（快）", cn: "人形机器人挥手迎接；摄像头是眼睛、传感器是耳朵、小电脑是大脑；还试了 3D 打印", act: "学机器人挥手；说 cameras/sensors 时分别指眼睛和耳朵；fast 干脆有力", sents: [
+  { t: "遇见机器人（快）", cn: "人形机器人挥手迎接；构造课上学机器人怎么搭——摄像头是眼睛、传感器是耳朵、小电脑是大脑；还试了 3D 打印", act: "学机器人挥手；说 cameras/sensors 时分别指眼睛和耳朵；fast 干脆有力", sents: [
     "First, I met a robot.",
     "At the door, a human-shaped robot waved to welcome us.",
-    "I learned how robots work: cameras are their eyes, sensors are their ears, and tiny computers are their brains.",
+    "In a robot class, I learned how robots are built: cameras are their eyes, sensors are their ears, and tiny computers are their brains.",
     "I even tried 3D printing!",
     "In Shenzhen, an idea becomes a product — fast."] },
   { t: "遇见艺术（远）", cn: "木织机上一行行学编织；楼上挂着几百年前法国宫廷的大壁毯——科技和艺术住在同一栋楼", act: "双手做织布动作；One small loom, one big world 放慢，举起带来的画", sents: [
@@ -1377,10 +1377,9 @@ const SPEECH = [
     "Upstairs, I saw huge French tapestries made for kings' palaces, hundreds of years old.",
     "One small loom, one big world.",
     "Technology and art live together in one tower!"] },
-  { t: "遇见温暖（暖）", cn: "消防演练戴防烟面罩穿过烟雾，学会勇敢；最喜欢的部分是午睡——挂彩灯的小帐篷", act: "做戴面罩的动作；Nap time! 俏皮，语气变甜", sents: [
+  { t: "遇见温暖（暖）", cn: "最喜欢的部分是午睡——挂彩灯的小帐篷；忙碌的大楼不忘关心人", act: "Nap time! 俏皮，语气变甜", sents: [
     "Last, I met warm hearts.",
-    "In a fire drill, I put on a smoke mask and walked through the smoke — I was nervous, but I learned to be brave.",
-    "And you know my favorite part?",
+    "You know my favorite part of the day?",
     "Nap time!",
     "We slept in little tents with fairy lights.",
     "This busy tower never forgets to care for people."] },
@@ -1403,7 +1402,7 @@ const SPEECH_WORDS = [
   ["A", "bamboo shoot", "竹笋"], ["A", "sprout", "嫩芽；小苗"], ["A", "tower", "高楼"], ["A", "Shenzhen Bay", "深圳湾"],
   ["A", "robot", "机器人"], ["A", "sensor", "传感器"], ["A", "brain", "大脑"], ["A", "3D printing", "3D 打印"],
   ["B", "weave", "编织"], ["B", "loom", "织机"], ["B", "tapestry", "壁毯"], ["B", "palace", "宫殿"], ["B", "gallery", "美术馆"],
-  ["C", "fire drill", "消防演练"], ["C", "smoke mask", "防烟面罩"], ["C", "campsite", "营地"], ["C", "fairy lights", "彩灯串"], ["C", "care for", "关心；照顾"],
+  ["C", "tent", "帐篷"], ["C", "campsite", "营地"], ["C", "fairy lights", "彩灯串"], ["C", "care for", "关心；照顾"],
 ];
 // 这两周每天的演讲任务（按日期，显示在「今天」页）
 const SPEECH_DAY = {
@@ -1431,7 +1430,7 @@ RENDER.speech = function () {
   el.innerHTML = `
   <div class="card">
     <div class="big">🗣️ ${esc(SPEECH_TITLE)}</div>
-    <p class="hint">向世界推介深圳 · 春笋 ｜ 终稿（10/26 合并版）约 335 词 ≈ 2 分 45 秒 ｜ 要求：不超过 3 分钟（超时会喊停）、必须脱稿</p>
+    <p class="hint">向世界推介深圳 · 春笋 ｜ 终稿（10/27 修订版）约 319 词 ≈ 2 分 40 秒 ｜ 要求：不超过 3 分钟（超时会喊停）、必须脱稿</p>
     ${sd ? `<p>📌 今天的演讲任务（${esc(sd[0])}）：${esc(sd[1])}</p>` : ""}
     <div class="row">
       <button id="spAll">🎧 听全文</button>
@@ -1452,7 +1451,7 @@ RENDER.speech = function () {
     ${SPEECH_GOLD.map(s => `<p class="enans">${esc(s)} <button class="small" data-say="${esc(s)}" aria-label="朗读">🔊</button></p>`).join("")}
   </div>
   <div class="card">
-    <div class="meta"><span>演讲单词卡（A 组＝春笋和机器人，B 组＝编织和壁毯，C 组＝消防和营地）</span></div>
+    <div class="meta"><span>演讲单词卡（A 组＝春笋和机器人，B 组＝编织和壁毯，C 组＝帐篷和营地）</span></div>
     <table class="list">${SPEECH_WORDS.map(([g, en, zh]) => `<tr><td style="width:44px">${g} 组</td><td style="width:44px"><button class="small" data-say="${esc(en)}" aria-label="朗读">🔊</button></td><td><b>${esc(en)}</b></td><td class="hint">${esc(zh)}</td></tr>`).join("")}</table>
     <p class="hint">练法：点 🔊 听一遍 → 自己读一遍 → 盖住中文说意思。比赛周配着当天跟读的那段练。</p>
   </div>`;
