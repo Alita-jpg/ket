@@ -1351,53 +1351,56 @@ function jumpFor(task) {
 function wireGo(root) { $$("[data-go]", root).forEach(b => b.onclick = () => showTab(b.dataset.go)); }
 
 // ===== 演讲（通用主题：向世界推介深圳 · 春笋）=====
-const SPEECH_TITLE = "Come and See the Bamboo Shoot Grow";
+const SPEECH_TITLE = "A Little Sprout, A Big Dream";
 const SPEECH = [
-  { t: "开场", cn: "问好，引出竹笋楼", act: "微笑，环视全场", sents: [
-    "Good afternoon, dear judges and friends!",
+  { t: "开场连环问", cn: "一栋楼能像植物一样生长吗？当然能！欢迎来到深圳，带你看春笋", act: "双手慢慢向上“生长”，问句看着评委；Yes, it can! 说得响亮", sents: [
+    "Can a building grow like a plant?",
+    "Can a building teach robots, make art, and hold dreams?",
+    "Yes, it can!",
+    "Welcome to Shenzhen!",
     "My name is ______.",
-    "Today, I want to show you my city, Shenzhen — and I will start with a giant bamboo shoot."] },
-  { t: "春笋", cn: "深圳湾近 400 米的高楼，妈妈就在里面上班；今年夏天我在那里研学了一整天", act: "双手比出高楼；说 My mom works inside it 时自豪地指向远方", sents: [
-    "Yes, a bamboo shoot!",
-    "By Shenzhen Bay stands a shining silver tower, almost four hundred meters tall.",
-    "Its real name is the China Resources Tower, but we all call it Chunsun — the Spring Bamboo Shoot.",
+    "Let me show you our “Spring Bamboo Shoot” — Chunsun, a shining tower reaching for the sky."] },
+  { t: "春笋与妈妈", cn: "春笋大名华润大厦，妈妈就在里面上班；八月的一日研学营里发现了新世界", act: "说 My mom works inside it 时自豪地指向远方", sents: [
+    "But Chunsun is not just a famous building.",
+    "Its real name is the China Resources Tower.",
     "My mom works inside it!",
-    "This summer, I spent a whole day there, and I met three wonderful things."] },
-  { t: "遇见机器人（快）", cn: "机器人迎接我们；摄像头是眼睛、传感器是耳朵、小电脑是大脑；还试了 3D 打印", act: "学机器人挥手；fast 一词说得干脆有力", sents: [
+    "This August, I joined a one-day camp there, and I discovered a whole new world inside."] },
+  { t: "遇见机器人（快）", cn: "人形机器人挥手迎接；摄像头是眼睛、传感器是耳朵、小电脑是大脑；还试了 3D 打印", act: "学机器人挥手；说 cameras/sensors 时分别指眼睛和耳朵；fast 干脆有力", sents: [
     "First, I met a robot.",
-    "At the door, a real robot waved to welcome us.",
-    "I learned what is inside a robot's body: cameras are its eyes, sensors are its ears, and a little computer is its brain.",
+    "At the door, a human-shaped robot waved to welcome us.",
+    "I learned how robots work: cameras are their eyes, sensors are their ears, and tiny computers are their brains.",
     "I even tried 3D printing!",
     "In Shenzhen, an idea becomes a product — fast."] },
-  { t: "遇见艺术（远）", cn: "在木织机上学编织；楼上美术馆挂着几百年前法国宫廷的大壁毯", act: "双手做织布动作；最后一句放慢，举起带来的画", sents: [
+  { t: "遇见艺术（远）", cn: "木织机上一行行学编织；楼上挂着几百年前法国宫廷的大壁毯——科技和艺术住在同一栋楼", act: "双手做织布动作；One small loom, one big world 放慢，举起带来的画", sents: [
     "Next, I met art from far away.",
-    "In a workshop, I learned to weave on a small wooden loom.",
-    "Line by line — my arms got so tired!",
-    "Then, upstairs in the gallery, I saw huge French tapestries, woven hundreds of years ago for kings' palaces.",
-    "They were hanging quietly — in a tower in my city.",
-    "One small loom, one big world."] },
-  { t: "遇见温暖（暖）", cn: "消防演练戴防烟面罩穿过烟雾，不害怕；午睡时大会议室变成帐篷营地", act: "做戴面罩的动作；说帐篷时语气变甜", sents: [
+    "I tried weaving on a small wooden loom — line by line, my arms got so tired!",
+    "Upstairs, I saw huge French tapestries made for kings' palaces, hundreds of years old.",
+    "One small loom, one big world.",
+    "Technology and art live together in one tower!"] },
+  { t: "遇见温暖（暖）", cn: "消防演练戴防烟面罩穿过烟雾，学会勇敢；最喜欢的部分是午睡——挂彩灯的小帐篷", act: "做戴面罩的动作；Nap time! 俏皮，语气变甜", sents: [
     "Last, I met warm hearts.",
-    "We had a fire drill.",
-    "I put on a smoke mask and walked through the smoke, and I was not scared.",
-    "At nap time, the big meeting room turned into a campsite — little tents with fairy lights, just for us kids!",
-    "You see, this busy tower never forgets to care for people."] },
-  { t: "升华", cn: "深圳像竹笋一样生长；它不只是快，还开放、温暖；妈妈帮大楼生长，我也要帮城市生长", act: "节奏放慢、声音渐强；最后一句手按胸口", sents: [
-    "People say Shenzhen grows like a bamboo shoot.",
-    "Less than fifty years ago, it was a quiet little town; now it touches the sky.",
-    "But today I want to tell the world: Shenzhen is not only fast.",
+    "In a fire drill, I put on a smoke mask and walked through the smoke — I was nervous, but I learned to be brave.",
+    "And you know my favorite part?",
+    "Nap time!",
+    "We slept in little tents with fairy lights.",
+    "This busy tower never forgets to care for people."] },
+  { t: "升华（金句）", cn: "小小春笋能长成大大的梦想；深圳五十年从小镇长到天空；不只是快，还开放、温暖；妈妈帮大楼生长，我帮城市生长", act: "金句：双手从胸前向天空展开；后半段放慢、渐强，最后一句手按胸口", sents: [
+    "That day, I understood something: a little sprout can grow into a big dream!",
+    "People say Shenzhen grows like a bamboo shoot — fifty years ago it was a small town; today it touches the sky.",
+    "But Shenzhen is not only fast.",
     "It is open, and it is warm.",
     "My mom helps this tower grow.",
-    "Maybe one day, I will help this city grow too!"] },
-  { t: "结尾", cn: "今年 APEC 来深圳；欢迎全世界来看春笋生长", act: "张开双臂发出邀请，结尾鞠躬", sents: [
-    "This year, APEC comes to Shenzhen.",
-    "Friends from all over the world — welcome!",
-    "Come to Shenzhen Bay, and watch the bamboo shoot grow.",
+    "One day, I will help this city grow too!"] },
+  { t: "结尾邀请", cn: "APEC 来深圳，欢迎全世界来看春笋；金句第二次出现", act: "张开双臂发出邀请，结尾鞠躬", sents: [
+    "This year, APEC comes to Shenzhen, and I want to welcome the world!",
+    "Come to Shenzhen Bay.",
+    "Come and see our Spring Bamboo Shoot.",
+    "Because here, a little sprout can grow into a big dream!",
     "Thank you!"] },
 ];
-const SPEECH_GOLD = ["One small loom, one big world.", "Shenzhen is not only fast. It is open, and it is warm.", "Come to Shenzhen Bay, and watch the bamboo shoot grow."];
+const SPEECH_GOLD = ["A little sprout can grow into a big dream!", "One small loom, one big world.", "Shenzhen is not only fast. It is open, and it is warm."];
 const SPEECH_WORDS = [
-  ["A", "bamboo shoot", "竹笋"], ["A", "tower", "高楼"], ["A", "Shenzhen Bay", "深圳湾"], ["A", "judge", "评委"],
+  ["A", "bamboo shoot", "竹笋"], ["A", "sprout", "嫩芽；小苗"], ["A", "tower", "高楼"], ["A", "Shenzhen Bay", "深圳湾"],
   ["A", "robot", "机器人"], ["A", "sensor", "传感器"], ["A", "brain", "大脑"], ["A", "3D printing", "3D 打印"],
   ["B", "weave", "编织"], ["B", "loom", "织机"], ["B", "tapestry", "壁毯"], ["B", "palace", "宫殿"], ["B", "gallery", "美术馆"],
   ["C", "fire drill", "消防演练"], ["C", "smoke mask", "防烟面罩"], ["C", "campsite", "营地"], ["C", "fairy lights", "彩灯串"], ["C", "care for", "关心；照顾"],
@@ -1428,7 +1431,7 @@ RENDER.speech = function () {
   el.innerHTML = `
   <div class="card">
     <div class="big">🗣️ ${esc(SPEECH_TITLE)}</div>
-    <p class="hint">向世界推介深圳 · 春笋 ｜ 全文约 350 词 ≈ 2 分 45 秒 ｜ 要求：不超过 3 分钟（超时会喊停）、必须脱稿</p>
+    <p class="hint">向世界推介深圳 · 春笋 ｜ 终稿（10/26 合并版）约 335 词 ≈ 2 分 45 秒 ｜ 要求：不超过 3 分钟（超时会喊停）、必须脱稿</p>
     ${sd ? `<p>📌 今天的演讲任务（${esc(sd[0])}）：${esc(sd[1])}</p>` : ""}
     <div class="row">
       <button id="spAll">🎧 听全文</button>
